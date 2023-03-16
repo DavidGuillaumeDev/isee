@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FiMenu, FiHome, FiTrendingUp, FiVideo, FiSettings, FiHelpCircle, FiUser  } from "react-icons/fi";
+import { FiMenu, FiHome, FiTrendingUp, FiVideo, FiSettings, FiHelpCircle, FiUser } from "react-icons/fi";
 
 const NavBar = () => {
   const [showSidebar, setShowSidebar] = React.useState(false);
@@ -16,16 +16,16 @@ const NavBar = () => {
           iSee
         </Link>
       </div>
-      <div className="w-full flex-grow lg:flex lg:items-center lg:w-auto">
-        <div className="w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 text-sm lg:flex-grow">
+      <div className="flex flex-grow items-center">
+        <div className="flex-grow text-sm">
           <input
-            className="bg-gray-800 focus:outline-none focus:shadow-outline rounded-lg py-2 px-4 block w-full appearance-none leading-normal"
+            className="bg-gray-800 focus:outline-none focus:shadow-outline rounded-lg py-2 px-4 block w-full appearance-none leading-normal text-white"
             type="text"
             placeholder="Rechercher"
           />
         </div>
-        <div>
-          <FiUser className="text-white text-2xl" />
+        <div className="flex items-center">
+          <FiUser className="text-white text-2xl ml-4" />
         </div>
       </div>
       <div
