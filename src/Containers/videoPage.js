@@ -4,6 +4,7 @@ import LiveChat from '../Components/VideoPage/liveChat';
 import CardVideoPage from '../Components/VideoPage/cardVideoPage';
 import Comments from '../Components/VideoPage/comments';
 import "../Styles/index.css";
+import Reset from "../Videos/reset.mp4"
 
 const VideoPage = () => {
   document.title = "VideoPage";
@@ -13,7 +14,7 @@ const VideoPage = () => {
       <div className="video-and-livechat-container mt-24 mx-24">
         <div className="video-and-comments-container">
           <div className="custom-border mb-6">
-            <VideoPlayer src="https://youtu.be/IELSJpKuZq0" />
+            <VideoPlayer src={Reset}/>
           </div>
           <div className="custom-border">
             <Comments />

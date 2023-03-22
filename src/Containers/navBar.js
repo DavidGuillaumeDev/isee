@@ -29,7 +29,7 @@ const NavBar = () => {
         </div>
       </div>
       <div
-        className={`fixed left-0 top-16 bg-gray-900 w-64 p-6 overflow-y-auto transform transition-all duration-300 ease-in-out ${
+        className={`fixed left-0 top-16 bg-gray-900 w-64 p-6 overflow-y-auto transform transition-all duration-300 ease-in-out opacity-90 ${
           showSidebar ? "translate-x-0" : "-translate-x-full"
         }`}
         style={{ height: "calc(100vh - 4rem)" }}
