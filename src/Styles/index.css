@@ -158,3 +158,127 @@ code {
   display: flex;
   align-items: center;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  Src-box  */
+
+.src-box { 
+  font-size: 16px; /* Réduire la taille de la police */
+  border: solid .25em #fff; 
+  display: inline-block; 
+  position: relative; 
+  border-radius: 2em; /* Réduire le rayon de la bordure */
+} 
+
+.src-box input[type=text] {
+  font-family: inherit;
+  font-weight: bold;
+  color: #fff;
+  width: 2.5em;
+  height: 2.5em;
+  background-color: transparent;
+  border: none;
+  box-sizing: border-box;
+  border-radius: 2.5em;
+  transition: width 800ms cubic-bezier(.68, -.55, .27, 1.55) 150ms;
+}
+  
+.src-box input[type=text]:focus { 
+  outline: none; 
+} 
+  
+.src-box input[type=text]:focus,
+.src-box input[type=text]:not(:placeholder-shown) {
+  width: 18em;
+  transition: width 800ms cubic-bezier(.68, -.55, .27, 1.55);
+}
+
+@media (max-width: 640px) {
+  .src-box input[type=text]:focus,
+  .src-box input[type=text]:not(:placeholder-shown) {
+    width: 12em;
+    transition: width 800ms cubic-bezier(.68, -.55, .27, 1.55);
+  }
+}
+
+.src-box input[type=text]:focus + button[type=reset], 
+.src-box input[type=text]:not(:placeholder-shown) + button[type=reset] {
+  transform: rotate(-45deg) translateY(0); 
+  transition: transform 150ms ease-out 800ms; 
+} 
+
+.src-box input[type=text]:focus + button[type=reset]::after, 
+.src-box input[type=text]:not(:placeholder-shown) + button[type=reset]::after {
+  opacity: 1; 
+  transition: top 150ms ease-out 950ms, right 150ms ease-out 950ms, opacity 150ms ease 950ms;
+}
+
+.src-box button[type=reset] {
+  background-color: transparent;
+  width: 1em; 
+  height: 1em;
+  border: 0;
+  padding: 0;
+  outline: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: .6em;
+  right: .8em;
+  transform: rotate(-45deg) translateY(2.2em);
+  transition: transform 150ms ease-out 150ms;
+} 
+
+.src-box button[type=reset]::before, 
+.src-box button[type=reset]::after {
+  content: "";
+  background-color: #fff;
+  width: .3em;
+  height: 1.4em;
+  border-radius: 10px;
+  position: absolute;
+} 
+
+.src-box button[type=reset]::after {
+  transform: rotate(90deg);
+  opacity: 0;
+  transition: transform 150ms ease-out, opacity 150ms ease-out;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
