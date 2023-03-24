@@ -5,13 +5,13 @@ const LiveChat = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // L'envoi et la récupération des messages seront gérés par une API ultérieurement
+    // L'envoi et la récupération des messages seront gérés par l'API
   };
 
   return (
     <div className="live-chat flex flex-col h-full">
       <div className="messages flex-1 overflow-y-auto">
-        {/* Les messages seront récupérés via une API ultérieurement */}
+        {/* Messages*/}
       </div>
       <form onSubmit={handleSubmit} className="message-form">
         <input

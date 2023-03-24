@@ -6,6 +6,7 @@ import Comment from './comment';
 
 const Comments = ({ comments }) => {
   const [newComment, setNewComment] = useState('');
+  
 
   const handleCommentChange = (e) => {
     setNewComment(e.target.value);
@@ -28,7 +29,7 @@ const Comments = ({ comments }) => {
         />
       </div>
       <div className="comment-list">
-        {/*comments.map((comment) => (
+        {comments.map((comment) => (
           <Comment
             key={comment.id}
             userImage={comment.userImage}
@@ -36,7 +37,7 @@ const Comments = ({ comments }) => {
             date={comment.date}
             comment={comment.comment}
           />
-        ))*/}
+        ))}
       </div>
     </div>
   );
