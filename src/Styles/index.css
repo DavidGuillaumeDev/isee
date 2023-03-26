@@ -123,7 +123,7 @@ code {
 
 .progress-container {
   position: absolute;
-  bottom: 2.5rem; /* Modification ici */
+  bottom: 2.5rem;
   width: 100%;
   height: 5px;
   background-color: rgba(255, 255, 255, 0.5);
@@ -165,30 +165,22 @@ code {
 
 
 
-
-
-
-
-
-
-
-
 /*  Src-box  */
 
 .src-box { 
-  font-size: 16px; /* Réduire la taille de la police */
+  font-size: 16px; 
   border: solid .25em #fff; 
   display: inline-block; 
   position: relative; 
-  border-radius: 2em; /* Réduire le rayon de la bordure */
+  border-radius: 2em;
 } 
 
 .src-box input[type=text] {
   font-family: inherit;
   font-weight: bold;
   color: #fff;
-  width: 2.5em;
-  height: 2.5em;
+  width: 1.5em;
+  height: 1.5em;
   background-color: transparent;
   border: none;
   box-sizing: border-box;
@@ -197,7 +189,7 @@ code {
 }
   
 .src-box input[type=text]:focus { 
-  outline: none; 
+  outline: none;   
 } 
   
 .src-box input[type=text]:focus,
@@ -218,18 +210,28 @@ code {
 .src-box input[type=text]:not(:placeholder-shown) + button[type=reset] {
   transform: rotate(-45deg) translateY(0); 
   transition: transform 150ms ease-out 800ms; 
+  right: 1.2em;
 } 
+
+.src-box input[type=text]:focus + button[type=reset]::before,
+.src-box input[type=text]:not(:placeholder-shown) + button[type=reset]::before {
+  transform: scaleY(0.8); 
+  transition: transform 150ms ease-out;
+  top: .45em;
+}
 
 .src-box input[type=text]:focus + button[type=reset]::after, 
 .src-box input[type=text]:not(:placeholder-shown) + button[type=reset]::after {
   opacity: 1; 
+  transform: rotate(90deg) scaleY(0.8);
   transition: top 150ms ease-out 950ms, right 150ms ease-out 950ms, opacity 150ms ease 950ms;
+  top: .45em;
 }
 
 .src-box button[type=reset] {
   background-color: transparent;
-  width: 1em; 
-  height: 1em;
+  width: .3em; 
+  height: .3em;
   border: 0;
   padding: 0;
   outline: 0;
@@ -237,8 +239,8 @@ code {
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: .6em;
-  right: .8em;
+  top: .1em;
+  right: 1.2em;
   transform: rotate(-45deg) translateY(2.2em);
   transition: transform 150ms ease-out 150ms;
 } 
@@ -248,9 +250,10 @@ code {
   content: "";
   background-color: #fff;
   width: .3em;
-  height: 1.4em;
+  height: 1em;
   border-radius: 10px;
   position: absolute;
+  transform-origin: center;
 } 
 
 .src-box button[type=reset]::after {
@@ -268,13 +271,107 @@ code {
 
 
 
+/* Menu déroulant User */
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  min-width: 160px;
+  background-color: #2d3748;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transition: opacity 200ms, visibility 200ms, transform 200ms;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px); 
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #cbd5e0;
+  text-decoration: none;
+  transition: background-color 150ms, color 150ms;
+}
+
+.dropdown-menu a:hover {
+  background-color: #2d3a52;
+  color: #fff;
+}
+
+.user-icon:hover + .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0); 
+}
+
+
+.menu-container:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+}
+
+.dropdown-item {
+  display: block;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #cbd5e0;
+  text-decoration: none;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  outline: none;
+}
+
+.dropdown-item:hover {
+  background-color: #2d3a52;
+  color: #fff;
+}
 
 
 
 
+/* Bouttons information user */
 
+.button {
+  padding: 10px;
+  margin: 2px;
+  font-size: 1rem;
+  cursor: pointer;
+  border: 0px;
+  background: transparent;
+  position: relative;
+  transition: all .2s;
+  overflow: hidden;
+  color: #000000;
+  border-radius: 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
+.button::after {
+  content: '';
+  width: 400px;
+  height: 400px;
+  position: absolute;
+  top: -50px;
+  left: -100px;
+  background-image: linear-gradient(225deg, #27d86c 0%, #26caf8 50%, #c625d0 100%);
+  z-index: -1;
+  transition: all .5s;
+}
 
+.button:hover::after {
+  transform: rotate(150deg);
+}
+
+.button:hover {
+  transform: translate(0,-6px);
+  box-shadow: 10px -10px 25px 0px rgba(143, 64, 248, .25), -10px 10px 25px 0px rgba(39, 200, 255, .25);
+}
 
 
 

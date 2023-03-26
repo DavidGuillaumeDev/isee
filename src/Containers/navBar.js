@@ -4,6 +4,16 @@ import { FiMenu, FiHome, FiTrendingUp, FiVideo, FiSettings, FiHelpCircle, FiUser
 
 const NavBar = () => {
   const [showSidebar, setShowSidebar] = React.useState(false);
+  const [isConnected, setIsConnected] = React.useState(true);
+
+  const disconnect = () => {
+    setIsConnected(false);
+  };
+
+  const connect = () => {
+    setIsConnected(true);
+  };
+
 
   return (
     <nav className="fixed top-0 w-full flex items-center justify-between flex-wrap bg-gray-900 p-6">
@@ -21,7 +31,26 @@ const NavBar = () => {
         <button type="reset"></button>
       </div>
       <div className="flex items-center">
-        <FiUser className="text-white text-2xl ml-4" />
+        <div className="menu-container relative">
+          <FiUser className="text-white text-2xl ml-4 cursor-pointer" />
+          <div className="dropdown-menu">
+            {!isConnected && 
+              <Link to="/connexion" className="dropdown-item">
+                Connexion
+              </Link> 
+            }
+            {isConnected && (
+              <>
+                <button onClick={disconnect} className="dropdown-item">
+                  Déconnexion
+                </button>
+                <Link to="/informations-du-compte" className="dropdown-item">
+                  Informations du compte
+                </Link>
+              </>
+            )}         
+          </div>
+        </div>
       </div>
       <div
         className={`fixed left-0 top-16 bg-gray-900 w-64 p-6 overflow-y-auto transform transition-all duration-300 ease-in-out opacity-90 ${
@@ -34,17 +63,17 @@ const NavBar = () => {
             <Link to="/" className="text-white text-xl">
               Accueil
             </Link>
-          </div>
+          </div> 
           <div className="flex items-center mb-6">
             <FiTrendingUp className="text-white text-xl mr-3" />
             <Link to="/tendances" className="text-white text-xl">
-              Tendances
+              Tendances {/* Plus de nb de vues dans les 2 derniers jours */}
             </Link>
           </div>
           <div className="flex items-center mb-6">
             <FiVideo className="text-white text-xl mr-3" />
             <Link to="/vos-videos" className="text-white text-xl">
-              Vos Vidéos
+              Vos Vidéos {/* Liste des vidéos upload par l'utilisateur connecté / Doit s'afficher si un utilisateur est connecté*/}
             </Link>
           </div>
           <div className="absolute bottom-0 left-0 mb-6 p-6 w-full">

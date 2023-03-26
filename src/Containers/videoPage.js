@@ -57,9 +57,9 @@ const VideoPage = () => {
   
 
   return (
-    <div className="video-page-container">
+    <div className="video-page-container ">
       <div className="video-and-livechat-container mt-24 mx-2 lg:mx-24">
-        <div className="video-and-comments-container">
+        <div className="video-and-comments-container mb-6 mt-6">
           <div className="mb-6">
             <VideoPlayer 
               src={Reset} 
@@ -75,11 +75,11 @@ const VideoPage = () => {
             <Comments comments={comments}/>
           </div>
         </div>
-        <div className="live-chat-container mt-6 md:mt-0 md:ml-6">
-          <div className="mb-6">
+        <div className="live-chat-container mt-6 md:mt-0 md:ml-6 ">
+          <div className="mb-6 mt-6">
             <LiveChat />
           </div>
-          <div className="mt-6 grid grid-cols-1 gap-6">
+          <div className="mt-6 grid grid-cols-1 gap-6 ">
             {cards.map((card) => (
               <CardVideoPage
                 key={card.id}
