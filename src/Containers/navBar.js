@@ -1,18 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { FiMenu, FiHome, FiTrendingUp, FiVideo, FiSettings, FiHelpCircle, FiUser } from "react-icons/fi";
+import { FiMenu, FiHome, FiTrendingUp, FiVideo, FiSettings, FiHelpCircle, FiUser, FiBarChart2 } from "react-icons/fi";
+import UserContext from "../Contexts/userContext";
 
 const NavBar = () => {
   const [showSidebar, setShowSidebar] = React.useState(false);
-  const [isConnected, setIsConnected] = React.useState(true);
-
-  const disconnect = () => {
-    setIsConnected(false);
-  };
-
-  const connect = () => {
-    setIsConnected(true);
-  };
+  const { isConnected, user, deconnectUser } = useContext(UserContext);
 
 
   return (
@@ -41,7 +34,7 @@ const NavBar = () => {
             }
             {isConnected && (
               <>
-                <button onClick={disconnect} className="dropdown-item">
+                <button onClick={deconnectUser()} className="dropdown-item">
                   Déconnexion
                 </button>
                 <Link to="/informations-du-compte" className="dropdown-item">
@@ -70,12 +63,24 @@ const NavBar = () => {
               Tendances {/* Plus de nb de vues dans les 2 derniers jours */}
             </Link>
           </div>
+          {isConnected 
+          && 
           <div className="flex items-center mb-6">
             <FiVideo className="text-white text-xl mr-3" />
             <Link to="/vos-videos" className="text-white text-xl">
               Vos Vidéos {/* Liste des vidéos upload par l'utilisateur connecté / Doit s'afficher si un utilisateur est connecté*/}
             </Link>
           </div>
+          }
+          {user.isAdmin 
+            && 
+            <div className="flex items-center mb-6">
+            <FiBarChart2 className="text-white text-xl mr-3" />
+            <Link to="/dashboard-admin" className="text-white text-xl">
+              Tableau de bord admin
+            </Link>
+          </div>
+          } 
           <div className="absolute bottom-0 left-0 mb-6 p-6 w-full">
             <div className="flex items-center mb-6">
               <FiSettings className="text-white text-xl mr-3" />
