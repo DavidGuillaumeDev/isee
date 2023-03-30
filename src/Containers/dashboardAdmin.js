@@ -73,7 +73,7 @@ const DashboardAdmin = () => {
         </div>
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold mb-4 text-gray-800">
-            Vidéos téléchargées
+            Vidéos en ligne
           </h2>
           <p className="text-lg text-gray-700">{videos}</p>
         </div>

@@ -116,7 +116,7 @@ const Home = () => {
       ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-24 mx-24">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 mt-24 mx-24">
       {videos.map((video) => (
         <Card
           key={video.id}

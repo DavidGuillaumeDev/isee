@@ -5,6 +5,8 @@ const Account = () => {
   const initialUserData = {
     pseudo: 'Azazel',
     email: 'azazel@example.com',
+    password: 'AzazelPass',
+    profilePicture: ''
   };
 
   const [userData, setUserData] = useState(initialUserData);

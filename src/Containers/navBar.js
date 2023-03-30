@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { FiMenu, FiHome, FiTrendingUp, FiVideo, FiSettings, FiHelpCircle, FiUser, FiBarChart2 } from "react-icons/fi";
 import UserContext from "../Contexts/userContext";
+import youtubeIsee from "../Images/youtubeIsee.png"
 
 const NavBar = () => {
   const [showSidebar, setShowSidebar] = React.useState(false);
@@ -12,11 +13,14 @@ const NavBar = () => {
     <nav className="fixed top-0 w-full flex items-center justify-between flex-wrap bg-gray-900 p-6">
       <div className="flex items-center flex-shrink-0 text-white">
         <FiMenu
-          className="text-white text-2xl mr-2 cursor-pointer"
+          className="text-white text-3xl mr-2 cursor-pointer"
           onClick={() => setShowSidebar(!showSidebar)}
         />
         <Link to="/" className="font-semibold text-xl tracking-tight">
-          iSee
+          <div className="flex flex-row items-center h-10">
+            <img src={youtubeIsee} alt="logoIsee" className="h-full"/>
+            iSee
+          </div>
         </Link>
       </div>
       <div className="src-box">
@@ -25,7 +29,7 @@ const NavBar = () => {
       </div>
       <div className="flex items-center">
         <div className="menu-container relative">
-          <FiUser className="text-white text-2xl ml-4 cursor-pointer" />
+          <FiUser className="text-white text-3xl ml-4 cursor-pointer" />
           <div className="dropdown-menu">
             {!isConnected && 
               <Link to="/connexion" className="dropdown-item">

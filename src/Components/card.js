@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 const Card = ({ thumbnail, userImage, title, userName, views, date, videoId }) => {
   return (
     <Link to={`/video`} className="p-4 block underline-none">
-      <div className="bg-white rounded-lg overflow-hidden shadow-md p-4 mb-6">
-        <img className="rounded w-full h-56 object-cover" src={thumbnail} alt={title} />
+      <div className="bg-white rounded-lg overflow-hidden  mb-6">
+        <img className="rounded w-full object-cover" src={thumbnail} alt={title} />
         <div className="flex items-center my-2">
           <img className="w-10 h-10 rounded-full mr-4" src={userImage} alt={userName} />
           <div>
