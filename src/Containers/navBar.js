@@ -2,7 +2,8 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { FiMenu, FiHome, FiTrendingUp, FiVideo, FiSettings, FiHelpCircle, FiUser, FiBarChart2 } from "react-icons/fi";
 import UserContext from "../Contexts/userContext";
-import youtubeIsee from "../Images/youtubeIsee.png"
+import youtubeIsee from "../Images/youtubeIsee.png";
+import ProfilPicture from '../Images/logoSupinfo.jpg';
 
 const NavBar = () => {
   const [showSidebar, setShowSidebar] = React.useState(false);
@@ -29,7 +30,7 @@ const NavBar = () => {
       </div>
       <div className="flex items-center">
         <div className="menu-container relative">
-          <FiUser className="text-white text-3xl ml-4 cursor-pointer" />
+        <img src={ProfilPicture} alt="Profil" className="h-12 w-12 rounded-full cursor-pointer" />
           <div className="dropdown-menu">
             {!isConnected && 
               <Link to="/connexion" className="dropdown-item">

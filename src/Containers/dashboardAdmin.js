@@ -9,7 +9,7 @@ const DashboardAdmin = () => {
 
   const users = 2500;
   const videos = 1050;
-  const totalSize = '250 GB';
+  const totalSize = 250;
 
   const generateTableData = () => {
     const data = [];
@@ -56,12 +56,13 @@ const DashboardAdmin = () => {
       </g>
     );
   };
+  
 
   
 
   return (
-    <div className="dashboard-admin p-8">
-      <h1 className="text-2xl font-semibold mb-6 text-gray-800 text-center">
+    <div className="dashboard-admin p-8 mt-16">
+      <h1 className="text-4xl font-semibold mb-6 text-gray-800 text-center font-roboto">
         Tableau de bord administrateur
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
@@ -81,7 +82,7 @@ const DashboardAdmin = () => {
           <h2 className="text-xl font-semibold mb-4 text-gray-800">
             Taille totale des vidéos
           </h2>
-          <p className="text-lg text-gray-700">{totalSize} Mo</p>
+          <p className="text-lg text-gray-700">{totalSize} Go</p>
         </div>
       </div>
 
