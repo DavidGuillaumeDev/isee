@@ -174,7 +174,7 @@ code {
 
 .src-box { 
   font-size: 16px; 
-  border: solid .25em #fff; 
+  border: solid .25em #000000; 
   display: inline-block; 
   position: relative; 
   border-radius: 2em;
@@ -183,7 +183,7 @@ code {
 .src-box input[type=text] {
   font-family: inherit;
   font-weight: bold;
-  color: #fff;
+  color: #000000;
   width: 1.5em;
   height: 1.5em;
   background-color: transparent;
@@ -253,7 +253,7 @@ code {
 .src-box button[type=reset]::before, 
 .src-box button[type=reset]::after {
   content: "";
-  background-color: #fff;
+  background-color: #000000;
   width: .3em;
   height: 1em;
   border-radius: 10px;
