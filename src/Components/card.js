@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const Card = ({ thumbnail, userImage, title, userName, views, date, videoId }) => {
   return (
-    <Link to={`/video`} className="p-4 block underline-none">
+    <Link to={`/video/${videoId}`} className="p-4 block underline-none">
       <div className="bg-white rounded-lg overflow-hidden  mb-6">
         <img className="rounded w-full object-cover" src={thumbnail} alt={title} />
         <div className="flex items-center my-2">

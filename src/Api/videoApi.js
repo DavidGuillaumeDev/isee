@@ -92,8 +92,9 @@ export const fetchUserVideos = async (userId) => {
   };
   
   export const getVideoById = (videoId) => {
-    return fetch(`${urlApi}/videos/${videoId}`)
+    return fetch(`${urlApi}video/${videoId}`)
       .then((response) => {
+        console.log(response)
         if (response.ok) {
           return response.json();
         } else {
@@ -101,7 +102,9 @@ export const fetchUserVideos = async (userId) => {
         }
       })
       .then((data) => {
+      
         console.log(data); // Données de la vidéo récupérées avec succès
+        return data
       })
       .catch((error) => {
         console.error(error.message); // Gestion de l'erreur de la requête

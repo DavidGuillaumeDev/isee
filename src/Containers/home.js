@@ -39,6 +39,7 @@ const Home = () => {
       {videos.map((video) => (
         <Card
           key={video._id}
+          videoId={video._id}
           thumbnail={getThumbnailUrl(video.thumbnail)}
           userImage={video.userImage || DefaultUserProfilePicture}
           title={video.title}

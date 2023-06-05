@@ -18,7 +18,7 @@ root.render(
           <NavBar />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/video" element={<VideoPage />} />
+            <Route path="/video/:videoId" element={<VideoPage />} />
             <Route path="/informations-du-compte" element={<Account />} />
             <Route path="/dashboard-admin" element={<DashboardAdmin />} />
           </Routes>

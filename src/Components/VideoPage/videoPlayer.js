@@ -1,13 +1,13 @@
 import React, { useRef, useState } from 'react';
 import { FiDownload, FiMaximize2, FiPlay, FiPause } from 'react-icons/fi';
 import "../../Styles/index.css";
+import video from "../../Videos/alderiate.mp4"
 
 const VideoPlayer = ({ src, title, userImage, userName, views, description }) => {
   const videoRef = useRef();
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [volume, setVolume] = useState(1);
-
 
   const handlePlayPause = () => {
     if (isPlaying) {
@@ -47,7 +47,7 @@ const VideoPlayer = ({ src, title, userImage, userName, views, description }) =>
   return (
     <div className="video-player-container">
       <div className="video-player relative">
-        <video ref={videoRef} src={src} onTimeUpdate={handleTimeUpdate} onClick={handlePlayPause} className="w-full" />
+        <video ref={videoRef} src={video} onTimeUpdate={handleTimeUpdate} onClick={handlePlayPause} className="w-full" />
         
         <div className="progress-container w-full absolute bottom-0 left-0">
           <div className="progress-bar" onClick={handleScrub}>
