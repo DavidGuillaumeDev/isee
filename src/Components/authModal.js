@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect  } from "react";
 import Modal from "react-modal";
 
 Modal.setAppElement("#root");
@@ -9,18 +9,46 @@ const AuthModal = ({ isOpen, onRequestClose }) => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [passwordError, setPasswordError] = useState(false);
     const [register, setRegister] = useState(false);
+    const [connection, setConnection] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [showError, setShowError] = useState(false);
 
     const handleSubmit = (event) => {
+        console.log('handleSubmit');
         event.preventDefault();
-        if (register && password !== confirmPassword) {
-            setPasswordError(true);
-        } else {
-            setPasswordError(false);
-            // ici, vous pouvez gérer l'authentification ou l'inscription de l'utilisateur
+        if (register) {
+            if (password !== confirmPassword) {
+                setPasswordError(true);
+                setErrorMessage('Les mots de passe ne correspondent pas.');
+                console.log('Mdp Different');
+                setShowError(true);
+                setTimeout(() => {
+                    setShowError(false);
+                }, 3000);
+            } else {
+                setPasswordError(false);
+                console.log('inscription');
+                // Traitement de l'inscription
+            }
+        } else if(connection){
+            console.log('connection');
+            // Traitement de la connexion ici...
         }
     };
+    
+    useEffect(() => {
+        if (!isOpen) {
+            setUsername('');
+            setPassword('');
+            setConfirmPassword('');
+            setPasswordError(false);
+            setErrorMessage('');
+            setShowError(false);
+        }
+    }, [isOpen]);
 
     return (
+        <>
       <Modal
         isOpen={isOpen}
         onRequestClose={onRequestClose}
@@ -64,29 +92,37 @@ const AuthModal = ({ isOpen, onRequestClose }) => {
                 </div>
             )}
             <div className="flex items-center justify-between font-mono">
-                <button 
-                    className="bg-indigo-500 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full" 
-                    type="submit"
-                    disabled={register && password !== confirmPassword}
-                >
-                    {register ? "S'inscrire" : "Se connecter"}
-                </button>
+            <button 
+                className="border-2 border-black hover:border-4 hover:bg-white-100 text-black font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full transition-all duration-200" 
+                type="submit"
+                disabled={register && password !== confirmPassword}
+            >
+                {register ? "S'inscrire" : "Se connecter"}
+            </button>
+
+
             </div>
         </form>
         <div className="text-center mt-4 font-mono">
-            {register ? (
-                <>
-                    <span>Vous avez déjà un compte ?</span>
-                    <button className="text-indigo-500 ml-2" onClick={() => setRegister(false)}>Se connecter</button>
-                </>
-            ) : (
-                <>
-                    <span>Vous n'avez pas de compte ?</span>
-                    <button className="text-indigo-500 ml-2" onClick={() => setRegister(true)}>S'inscrire</button>
-                </>
-            )}
-        </div>
+        {register ? (
+            <>
+                <span>Vous avez déjà un compte ?</span>
+                <button className="ml-2" onClick={() => setConnection(true)}>Se connecter</button>
+            </>
+        ) : (
+            <>
+                <span>Vous n'avez pas de compte ?</span>
+                <button className="ml-2" onClick={() => setRegister(true)}>S'inscrire</button>
+            </>
+        )}
+    </div>
       </Modal>
+      {showError && 
+        <div className="fixed bottom-4 right-4 bg-red-600 text-white p-4 rounded shadow-lg w-64 transition-all duration-500 ease-in-out">
+          {errorMessage}
+        </div>
+      }
+      </>
     );
 };
 
