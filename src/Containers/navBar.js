@@ -22,7 +22,7 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="fixed top-0 w-full flex items-center bg-white justify-between flex-wrap p-6">
+    <nav className="font-mono fixed top-0 w-full flex items-center bg-white justify-between flex-wrap p-6">
       <div className="flex items-center flex-shrink-0 text-balck">
         <FiMenu
           className="text-black text-3xl mr-2 cursor-pointer"
@@ -79,7 +79,7 @@ const NavBar = () => {
           <div className="flex items-center mb-6">
             <FiTrendingUp className="text-black text-xl mr-3" />
             <Link to="/tendances" className="text-black text-xl">
-              Tendances {/* Plus de nb de vues dans les 2 derniers jours */}
+              Tendances
             </Link>
           </div>
           {isConnected 
@@ -87,7 +87,7 @@ const NavBar = () => {
           <div className="flex items-center mb-6">
             <FiVideo className="text-black text-xl mr-3" />
             <Link to="/vos-videos" className="text-black text-xl">
-              Vos Vidéos {/* Liste des vidéos upload par l'utilisateur connecté / Doit s'afficher si un utilisateur est connecté*/}
+              Vos Vidéos 
             </Link>
           </div>
           }
