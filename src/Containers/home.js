@@ -11,10 +11,9 @@ const Home = () => {
     document.title = "Home";
     const [videos, setVideos] = useState([]);
 
-
     useEffect(() => {
       fetchAllVideos()
-        .then(videosData => {
+        .then((videosData) => {
           setVideos(videosData); // Met à jour les vidéos avec les données récupérées de l'API
         })
         .catch(error => {
@@ -22,16 +21,6 @@ const Home = () => {
         });
     }, []);
 
-    const getThumbnailUrl = (thumbnail) => {
-      // Vérifier si le fichier d'image existe
-      try {
-        const image = require(`../Images/${thumbnail}`);
-        return image.default;
-      } catch (error) {
-        return Miniature;
-      }
-    };
-    
 
   return (
     
@@ -40,7 +29,7 @@ const Home = () => {
         <Card
           key={video._id}
           videoId={video._id}
-          thumbnail={getThumbnailUrl(video.thumbnail)}
+          thumbnail={video.thumbnailUrl}
           userImage={video.userImage || DefaultUserProfilePicture}
           title={video.title}
           userName={video.user.name}

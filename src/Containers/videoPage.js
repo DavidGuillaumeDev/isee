@@ -8,7 +8,8 @@ import Miniature from "../Images/miniatureTest.jpg";
 import ProfilPicture from "../Images/profilePictureTest.jpg";
 import { getVideoById } from "../Api/videoApi";
 import { useParams } from "react-router-dom";
-import TestVid from "../Videos/test.mp4";
+
+
 
 const VideoPage = () => {
   const { videoId } = useParams();
@@ -17,6 +18,8 @@ const VideoPage = () => {
   const [videoData, setVideoData] = useState(null);
   const [commentsData, setCommentsData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [videoUrl, setVideoUrl] = useState();
+
   const cards = [
     {
       id: 1,
@@ -38,24 +41,47 @@ const VideoPage = () => {
     },
   ];
 
-  const fetchVideoById = (videoId) => {
+  const fetchVideoData = async (videoId) => {
     setLoading(true);
-    getVideoById(videoId)
-      .then((data) => {
-        setCommentsData(data.comments);
-        setVideoData(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      });
+  
+    try {
+      const data = await getVideoById(videoId);
+      setCommentsData(data.comments);
+      setVideoData(data);
+    } catch (error) {
+      console.log(error);
+    }
+  
+    setLoading(false);
   };
-
+  
   useEffect(() => {
-    // Exemple d'appel de la fonction fetchVideoById avec un ID spécifique
-    fetchVideoById(videoId);
-  }, []);
+    const loadVideo = async () => {
+      try {
+        if (videoData) {
+          const videoModule = await import(`../Videos/${videoData.fileUrl}`);
+          setVideoUrl(videoModule.default);
+        }
+      } catch (error) {
+        console.error(error);
+        setVideoUrl(null);
+      }
+    };
+  
+    if (!videoData) {
+      fetchVideoData(videoId);
+    } else {
+      loadVideo();
+    }
+  }, [videoId, videoData]);
+  
+  
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  
+  // Reste du code pour afficher la vidéo et les données une fois qu'elles sont chargées
+  
 
   return (
     <div className="video-page-container">
@@ -68,15 +94,14 @@ const VideoPage = () => {
               <div className="video-and-comments-container mb-6 mt-6">
                 <div className="mb-6">
                   <VideoPlayer
-                    src={TestVid} // URL ou chemin vers la vidéo de secours ou la miniature
+                    src={videoUrl}
                     title={videoData.title}
                     userImage={ProfilPicture}
                     userName={videoData.userName}
                     views={videoData.views}
                     description={videoData.description}
-                  >
+                  />
                  
-                  </VideoPlayer>
                 </div>
                 <div>
                   <Comments comments={commentsData} />

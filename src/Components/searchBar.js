@@ -1,7 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
-const SearchBar = () => {
-  
+const SearchBar = ({ onSubmit }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    onSubmit(searchTerm);
+  };
 
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-sm">
@@ -16,9 +21,8 @@ const SearchBar = () => {
         <button
           className="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded"
           type="submit"
-          disabled={isLoading}
         >
-          {isLoading ? "Currently researching..." : "Search"}
+          Search
         </button>
       </div>
     </form>
