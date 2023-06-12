@@ -21,89 +21,7 @@ const Home = () => {
         });
     }, []);
 
-    const videos = [
-        {
-          id: 1,
-          thumbnail: Miniature,
-          userImage: ProfilPicture,
-          title: 'Parc de la colline aux oiseaux',
-          userName: 'Ville de Caen',
-          views: 1500000,
-          date: '15 mars 2021'
-        },
-        {
-          id: 1,
-          thumbnail: Miniature,
-          userImage: ProfilPicture,
-          title: 'Parc de la colline aux oiseaux',
-          userName: 'Ville de Caen',
-          views: 1500000,
-          date: '15 mars 2021'
-        },
-        {
-          id: 1,
-          thumbnail: Miniature,
-          userImage: ProfilPicture,
-          title: 'Parc de la colline aux oiseaux',
-          userName: 'Ville de Caen',
-          views: 1500000,
-          date: '15 mars 2021'
-        },
-        {
-          id: 1,
-          thumbnail: Miniature,
-          userImage: ProfilPicture,
-          title: 'Parc de la colline aux oiseaux',
-          userName: 'Ville de Caen',
-          views: 1500000,
-          date: '15 mars 2021'
-        },
-        {
-          id: 1,
-          thumbnail: Miniature,
-          userImage: ProfilPicture,
-          title: 'Parc de la colline aux oiseaux',
-          userName: 'Ville de Caen',
-          views: 1500000,
-          date: '15 mars 2021'
-        },
-        {
-          id: 1,
-          thumbnail: Miniature,
-          userImage: ProfilPicture,
-          title: 'Parc de la colline aux oiseaux',
-          userName: 'Ville de Caen',
-          views: 1500000,
-          date: '15 mars 2021'
-        },
-        {
-          id: 1,
-          thumbnail: Miniature,
-          userImage: ProfilPicture,
-          title: 'Parc de la colline aux oiseaux',
-          userName: 'Ville de Caen',
-          views: 1500000,
-          date: '15 mars 2021'
-        },
-        {
-          id: 1,
-          thumbnail: Miniature,
-          userImage: ProfilPicture,
-          title: 'Parc de la colline aux oiseaux',
-          userName: 'Ville de Caen',
-          views: 1500000,
-          date: '15 mars 2021'
-        },
-        {
-          id: 1,
-          thumbnail: Miniature,
-          userImage: ProfilPicture,
-          title: 'Parc de la colline aux oiseaux',
-          userName: 'Ville de Caen',
-          views: 1500000,
-          date: '15 mars 2021'
-        }
-      ];
+    
 
   return (
     
@@ -113,7 +31,7 @@ const Home = () => {
           key={video._id}
           videoId={video._id}
           thumbnail={video.thumbnailUrl}
-          userImage={video.userImage || DefaultUserProfilePicture}
+          userImage={video.userImage}
           title={video.title}
           userName={video.userName}
           views={video.views}
