@@ -7,7 +7,7 @@ const VideoPlayer = ({ src, title, userImage, userName, views, description }) =>
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [volume, setVolume] = useState(1);
-
+  
 
   const handlePlayPause = () => {
     if (isPlaying) {

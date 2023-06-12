@@ -8,20 +8,18 @@ import { fetchAllVideos } from "../Api/videoApi"
 
 const Home = () => {
     document.title = "Home";
+    const [videos, setVideos] = useState([]);
 
     useEffect(() => {
       console.log("test")
       fetchAllVideos()
-        .then(videos => {
-
-          console.log(videos); // Affiche les vidÃ©os dans la console
+        .then((videosData) => {
+          setVideos(videosData); // Met à jour les vidéos avec les données récupérées de l'API
         })
         .catch(error => {
           console.error(error);
         });
     }, []);
-
-  
 
     const videos = [
         {
@@ -112,9 +110,10 @@ const Home = () => {
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 mt-24 mx-24">
       {videos.map((video) => (
         <Card
-          key={video.id}
-          thumbnail={video.thumbnail}
-          userImage={video.userImage}
+          key={video._id}
+          videoId={video._id}
+          thumbnail={video.thumbnailUrl}
+          userImage={video.userImage || DefaultUserProfilePicture}
           title={video.title}
           userName={video.userName}
           views={video.views}

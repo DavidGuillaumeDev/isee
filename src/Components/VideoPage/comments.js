@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { FiUser } from 'react-icons/fi';
 import Comment from './comment';
+import DefaultUserProfilePicture from '../../Images/profilePictureTest.jpg';
+
 
 
 
@@ -16,7 +18,9 @@ const Comments = ({ comments }) => {
     // Add nv commentaire
   };
 */
+
   return (
+  
     <div className="comments">
       <div className="flex items-center mb-4">
         <FiUser className="text-xl mr-4" />
@@ -30,12 +34,13 @@ const Comments = ({ comments }) => {
       </div>
       <div className="comment-list">
         {comments.map((comment) => (
+        
           <Comment
             key={comment.id}
-            userImage={comment.userImage}
-            userName={comment.userName}
-            date={comment.date}
-            comment={comment.comment}
+            userImage={comment.userImage ||DefaultUserProfilePicture }
+            userName={comment.user.name}
+            // date={comment.date}
+            comment={comment.content}
           />
         ))}
       </div>
