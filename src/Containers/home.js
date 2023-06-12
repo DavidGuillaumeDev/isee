@@ -1,8 +1,7 @@
 import React, { useEffect, useState }  from 'react';
 import Card from '../Components/card';
 import Miniature from '../Images/miniatureTest.jpg';
-import DefaultUserProfilePicture from '../Images/profilePictureTest.jpg';
-
+import ProfilPicture from '../Images/profilePictureTest.jpg';
 import { fetchAllVideos } from "../Api/videoApi"
 
 
@@ -12,6 +11,7 @@ const Home = () => {
     const [videos, setVideos] = useState([]);
 
     useEffect(() => {
+      console.log("test")
       fetchAllVideos()
         .then((videosData) => {
           setVideos(videosData); // Met à jour les vidéos avec les données récupérées de l'API
@@ -21,6 +21,89 @@ const Home = () => {
         });
     }, []);
 
+    const videos = [
+        {
+          id: 1,
+          thumbnail: Miniature,
+          userImage: ProfilPicture,
+          title: 'Parc de la colline aux oiseaux',
+          userName: 'Ville de Caen',
+          views: 1500000,
+          date: '15 mars 2021'
+        },
+        {
+          id: 1,
+          thumbnail: Miniature,
+          userImage: ProfilPicture,
+          title: 'Parc de la colline aux oiseaux',
+          userName: 'Ville de Caen',
+          views: 1500000,
+          date: '15 mars 2021'
+        },
+        {
+          id: 1,
+          thumbnail: Miniature,
+          userImage: ProfilPicture,
+          title: 'Parc de la colline aux oiseaux',
+          userName: 'Ville de Caen',
+          views: 1500000,
+          date: '15 mars 2021'
+        },
+        {
+          id: 1,
+          thumbnail: Miniature,
+          userImage: ProfilPicture,
+          title: 'Parc de la colline aux oiseaux',
+          userName: 'Ville de Caen',
+          views: 1500000,
+          date: '15 mars 2021'
+        },
+        {
+          id: 1,
+          thumbnail: Miniature,
+          userImage: ProfilPicture,
+          title: 'Parc de la colline aux oiseaux',
+          userName: 'Ville de Caen',
+          views: 1500000,
+          date: '15 mars 2021'
+        },
+        {
+          id: 1,
+          thumbnail: Miniature,
+          userImage: ProfilPicture,
+          title: 'Parc de la colline aux oiseaux',
+          userName: 'Ville de Caen',
+          views: 1500000,
+          date: '15 mars 2021'
+        },
+        {
+          id: 1,
+          thumbnail: Miniature,
+          userImage: ProfilPicture,
+          title: 'Parc de la colline aux oiseaux',
+          userName: 'Ville de Caen',
+          views: 1500000,
+          date: '15 mars 2021'
+        },
+        {
+          id: 1,
+          thumbnail: Miniature,
+          userImage: ProfilPicture,
+          title: 'Parc de la colline aux oiseaux',
+          userName: 'Ville de Caen',
+          views: 1500000,
+          date: '15 mars 2021'
+        },
+        {
+          id: 1,
+          thumbnail: Miniature,
+          userImage: ProfilPicture,
+          title: 'Parc de la colline aux oiseaux',
+          userName: 'Ville de Caen',
+          views: 1500000,
+          date: '15 mars 2021'
+        }
+      ];
 
   return (
     
@@ -32,7 +115,7 @@ const Home = () => {
           thumbnail={video.thumbnailUrl}
           userImage={video.userImage || DefaultUserProfilePicture}
           title={video.title}
-          userName={video.user.name}
+          userName={video.userName}
           views={video.views}
           date={video.date}
         />

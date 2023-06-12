@@ -9,6 +9,9 @@ import VideoPage from './Containers/videoPage';
 import Account from './Components/account';
 import DashboardAdmin from './Containers/dashboardAdmin';
 import SearchResult from './Containers/searchResult';
+import TrendingPage from './Containers/trendingPage';
+import UserDashboard from './Containers/userDashboard';
+
 
 ReactDOM.render(
   <React.StrictMode>
@@ -20,6 +23,8 @@ ReactDOM.render(
         <Route path="/informations-du-compte" element={<Account />} />
         <Route path="/dashboard-admin" element={<DashboardAdmin />} />
         <Route path="/search/:query" element={<SearchResult/>} />
+        <Route path="/tendances" element={<TrendingPage />} />
+        <Route path="/dashboard-user" element={<UserDashboard />} />
       </Routes>
     </Router>
   </React.StrictMode>,

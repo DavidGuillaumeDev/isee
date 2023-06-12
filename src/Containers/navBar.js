@@ -1,26 +1,28 @@
 import React, { useContext, useState } from "react";
 import { Link,useNavigate  } from "react-router-dom";
-import {
-  FiMenu,
-  FiHome,
-  FiTrendingUp,
-  FiVideo,
-  FiSettings,
-  FiHelpCircle, 
-  FiUser,
-  FiBarChart2,
-} from "react-icons/fi";
+import { FiMenu, FiHome, FiTrendingUp, FiVideo, FiSettings, FiHelpCircle, FiUser, FiBarChart2 } from "react-icons/fi";
 import UserContext from "../Contexts/userContext";
 import youtubeIsee from "../Images/youtubeicon.png";
 import ProfilPicture from "../Images/logoSupinfo.jpg";
 import { fetchSearchVideos } from "../Api/videoApi";
+import AuthModal from "../Components/authModal";
 
 const NavBar = () => {
-  const [showSidebar, setShowSidebar] = React.useState(false);
+  const [showSidebar, setShowSidebar] = useState(false);
   const { isConnected, user, deconnectUser } = useContext(UserContext);
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
+  const [modalIsOpen, setModalIsOpen] = useState(false); 
+
+  const openModal = () => {
+    console.log("openModal");
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
 
   const handleSearch = async (query) => {
     try {
@@ -48,13 +50,13 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="fixed top-0 w-full flex items-center bg-white justify-between flex-wrap  p-6">
+    <nav className="font-mono fixed top-0 w-full flex items-center bg-white justify-between flex-wrap p-6">
       <div className="flex items-center flex-shrink-0 text-balck">
         <FiMenu
           className="text-black text-3xl mr-2 cursor-pointer"
           onClick={() => setShowSidebar(!showSidebar)}
         />
-        <Link to="/" className="font-semibold text-xl tracking-tight">
+        <Link to="/" className="font-semibold text-xl tracking-tight font-serif">
           <div className="flex flex-row items-center h-10">
             <img src={youtubeIsee} alt="logoIsee" className="h-full" />
             iSee
@@ -86,6 +88,9 @@ const NavBar = () => {
             )}
             {isConnected && (
               <>
+                <button onClick={openModal} className="dropdown-item">
+                  Connexion
+                </button>
                 <button onClick={deconnectUser()} className="dropdown-item">
                   Déconnexion
                 </button>
@@ -103,24 +108,24 @@ const NavBar = () => {
         }`}
         style={{ height: "calc(100vh - 4rem)" }}
       >
-        <div className="flex items-center mb-6">
-          <FiHome className="text-black text-xl mr-3" />
-          <Link to="/" className="text-black text-xl">
-            Accueil
-          </Link>
-        </div>
-        <div className="flex items-center mb-6">
-          <FiTrendingUp className="text-black text-xl mr-3" />
-          <Link to="/tendances" className="text-black text-xl">
-            Tendances {/* Plus de nb de vues dans les 2 derniers jours */}
-          </Link>
-        </div>
-        {isConnected && (
+          <div className="flex items-center mb-6">
+            <FiHome className="text-black text-xl mr-3" />
+            <Link to="/" className="text-black text-xl">
+              Accueil
+            </Link>
+          </div> 
+          <div className="flex items-center mb-6">
+            <FiTrendingUp className="text-black text-xl mr-3" />
+            <Link to="/tendances" className="text-black text-xl">
+              Tendances
+            </Link>
+          </div>
+          {isConnected 
+          && 
           <div className="flex items-center mb-6">
             <FiVideo className="text-black text-xl mr-3" />
-            <Link to="/vos-videos" className="text-black text-xl">
-              Vos Vidéos{" "}
-              {/* Liste des vidéos upload par l'utilisateur connecté / Doit s'afficher si un utilisateur est connecté*/}
+            <Link to="/dashboard-user" className="text-black text-xl">
+              Vos Vidéos 
             </Link>
           </div>
         )}
@@ -146,7 +151,11 @@ const NavBar = () => {
             </Link>
           </div>
         </div>
-      </div>
+        <AuthModal 
+        isOpen={modalIsOpen} 
+        onRequestClose={closeModal} 
+        contentLabel="Auth Modal"
+        />
     </nav>
   );
 };
