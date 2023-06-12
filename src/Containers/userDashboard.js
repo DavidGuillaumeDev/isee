@@ -65,7 +65,7 @@ const UserDashboard = () => {
 
   return (
     <div className="dashboard-admin p-8 mt-16">
-      <h1 className="text-4xl font-semibold mb-6 text-gray-800 text-center font-roboto">
+      <h1 className="text-4xl font-semibold mb-6 text-gray-800 text-center font-mono">
         Bienvenue sur votre tableau de bord créateur de contenu
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
