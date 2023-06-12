@@ -11,6 +11,17 @@ export const fetchUserVideos = async (userId) => {
     }
   };
 
+  export const fetchSuggUserVideos = async (userId) => {
+    try {
+      const response = await fetch(urlApi + `video/user/${userId}/sugg`);
+    
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      throw new Error('Failed to fetch user videos');
+    }
+  };
+
   export const fetchAllVideos = async () => {
     try {
      
@@ -109,5 +120,22 @@ export const fetchUserVideos = async (userId) => {
       .catch((error) => {
         console.error(error.message); // Gestion de l'erreur de la requête
       });
+  };
+  
+
+  export const fetchSearchVideos = async (search) => {
+    try {
+      const response = await fetch(urlApi + `utils/search/?query=${search}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+  
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      throw new Error("Failed to fetch user videos");
+    }
   };
   
