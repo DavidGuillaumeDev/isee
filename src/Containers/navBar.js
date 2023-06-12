@@ -86,7 +86,7 @@ const NavBar = () => {
           && 
           <div className="flex items-center mb-6">
             <FiVideo className="text-black text-xl mr-3" />
-            <Link to="/vos-videos" className="text-black text-xl">
+            <Link to="/dashboard-user" className="text-black text-xl">
               Vos Vidéos 
             </Link>
           </div>

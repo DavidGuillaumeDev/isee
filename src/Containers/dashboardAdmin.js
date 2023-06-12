@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, BarChart, Bar, ResponsiveContainer } from 'recharts';
+import CardDashboard from '../Components/cardDashboard';
 
 
 const DashboardAdmin = () => {
@@ -66,24 +67,9 @@ const DashboardAdmin = () => {
         Tableau de bord administrateur
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-4 text-gray-800">
-            Utilisateurs enregistrés
-          </h2>
-          <p className="text-lg text-gray-700">{users}</p>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-4 text-gray-800">
-            Vidéos en ligne
-          </h2>
-          <p className="text-lg text-gray-700">{videos}</p>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-4 text-gray-800">
-            Taille totale des vidéos
-          </h2>
-          <p className="text-lg text-gray-700">{totalSize} Go</p>
-        </div>
+        <CardDashboard text="Utilisateurs enregistrés" stat={users} />
+        <CardDashboard text="Vidéos en ligne" stat={videos} />
+        <CardDashboard text="Taille totale des vidéos" stat={`${totalSize} Go`} />
       </div>
 
       <div className="bg-white p-6 rounded-lg shadow-md">

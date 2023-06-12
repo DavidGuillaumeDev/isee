@@ -272,6 +272,54 @@ code {
   margin-left: 260px; 
 }
 
+.text-overflow-ellipsis {
+  text-overflow: ellipsis;
+}
+
+.text-description {
+  display: -webkit-box;
+  -webkit-line-clamp: 3; 
+  -webkit-box-orient: vertical;
+}
+
+
+.table-fixed {
+  width: 100%;
+}
+
+.col-id {
+  width: 10%;
+}
+
+.col-title {
+  width: 40%;
+}
+
+.col-status {
+  width: 10%;
+}
+
+.col-actions {
+  width: 40%;
+}
+
+.bg-green-500 {
+  background-color: rgb(81, 244, 81);
+  color: white;
+}
+
+.bg-red-500 {
+  background-color: rgb(217, 38, 38);
+  color: white;
+}
+
+.bg-orange-500 {
+  background-color: rgb(233, 170, 54);
+  color: white;
+}
+
+
+
 
 
 

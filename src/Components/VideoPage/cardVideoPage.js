@@ -7,7 +7,7 @@ const CardVideoPage = ({ thumbnail, title, userName, views, date, userImage }) =
       <div className="bg-white rounded-lg overflow-hidden shadow-md p-4 mb-6">
         <img className="rounded w-full object-cover" src={thumbnail} alt={title} />
         <div className="flex items-center my-2">
-          <img className="w-10 h-10 rounded-full mr-4" src={userImage} alt={userName} />
+          <img className="w-10 h-10 rounded-full mr-4" src={userImage}/>
           <div>
             <h2 className="font-semibold text-lg">{title}</h2>
             <p className="text-gray-600">{userName}</p>
