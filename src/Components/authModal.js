@@ -14,7 +14,26 @@ const AuthModal = ({ isOpen, onRequestClose }) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        
+        if (username.trim() === '' || password.trim() === '') {
+            setErrorMessage('Veuillez remplir tous les champs.');
+            setShowError(true);
+            setTimeout(() => {
+                setShowError(false);
+            }, 3000);
+            return;
+        }
+    
         if (isRegistering) {
+            if (confirmPassword.trim() === '') {
+                setErrorMessage('Veuillez confirmer votre mot de passe.');
+                setShowError(true);
+                setTimeout(() => {
+                    setShowError(false);
+                }, 3000);
+                return;
+            }
+            
             if (password !== confirmPassword) {
                 setPasswordError(true);
                 setErrorMessage('Les mots de passe ne correspondent pas.');
@@ -22,6 +41,7 @@ const AuthModal = ({ isOpen, onRequestClose }) => {
                 setTimeout(() => {
                     setShowError(false);
                 }, 3000);
+                return;
             } else {
                 setPasswordError(false);
                 console.log('Inscription');
@@ -32,6 +52,7 @@ const AuthModal = ({ isOpen, onRequestClose }) => {
             // Traitement de la connexion ici...
         }
     };
+    
 
     useEffect(() => {
         if (!isOpen) {
@@ -54,7 +75,7 @@ const AuthModal = ({ isOpen, onRequestClose }) => {
                 overlayClassName="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center"
             >
                 <h2 className="text-gray-700 text-3xl mb-4">{isRegistering ? "Inscription" : "Connexion"}</h2>
-                <form onSubmit={handleSubmit()}>
+                <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <input
                             className="border-b-2 border-gray-300 focus:outline-none focus:border-indigo-500 w-full text-lg py-2 mb-2 font-mono"
