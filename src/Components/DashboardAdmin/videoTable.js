@@ -6,6 +6,37 @@ import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 
 const VideoTable = ({ videos }) => {
 
+  // Generate fake videos
+
+  const generateFakeVideos = (count) => {
+    const videosTemp = [];
+  
+    for (let i = 1; i <= count; i++) {
+      const video = {
+        id: i,
+        title: `Vidéo ${i}`,
+        state: getRandomState()
+      };
+  
+      videosTemp.push(video);
+    }
+  
+    return videosTemp;
+  };
+  
+  const getRandomState = () => {
+    const states = ['Public', 'Privé', 'Non Repertorié'];
+    const randomIndex = Math.floor(Math.random() * states.length);
+    return states[randomIndex];
+  };
+  
+  // Utilisation dans votre composant DashboardAdmin
+  // Remplacez la ligne "return <VideoTable />;" par ce code :
+  
+  videos = generateFakeVideos(10);
+
+  // Generate fake videos
+
     const getClassFromState = (state) => {
         switch (state) {
             case 'Public':

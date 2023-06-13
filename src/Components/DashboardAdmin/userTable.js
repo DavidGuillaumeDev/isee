@@ -5,6 +5,28 @@ import { faUserEdit, faUserMinus } from "@fortawesome/free-solid-svg-icons";
 
 const UserTable = ({ users }) => {
 
+ // Generate user
+ const generateFakeUsers = (count) => {
+  const usersTemp = [];
+
+  for (let i = 1; i <= count; i++) {
+    const user = {
+      id: i,
+      username: `Utilisateur ${i}`,
+      email: `utilisateur${i}@example.com`
+    };
+
+    usersTemp.push(user);
+  }
+
+  return usersTemp;
+};
+
+users = generateFakeUsers(10); // Génère 10 faux utilisateurs
+ // Generate user
+
+
+
     const generateActionButtons = (user) => {
         const actions = [
             { label: 'Modifier', icon: faUserEdit, classes: 'mr-2 text-blue-600 hover:text-blue-900 border border-blue-600 hover:border-blue-900 rounded-md px-3 py-1 m-1 hover:bg-blue-200' },
