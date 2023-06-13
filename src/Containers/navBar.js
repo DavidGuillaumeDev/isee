@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   FiMenu,
@@ -10,16 +10,19 @@ import {
   FiUser,
   FiBarChart2,
 } from "react-icons/fi";
-import UserContext from "../Contexts/userContext";
 import youtubeIsee from "../Images/youtubeicon.png";
 import ProfilPicture from "../Images/logoSupinfo.jpg";
 import { fetchSearchVideos } from "../Api/videoApi";
 import AuthModal from "../Components/authModal";
+import { logout,GetUserIdButton,getMe } from "../Api/usersApi";
 
 const NavBar = () => {
   const [showSidebar, setShowSidebar] = useState(false);
-  const { isConnected, user, deconnectUser } = useContext(UserContext);
+  const [isConnected, setIsConnected] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [userId, setUserId] = useState('');
+  const [userData, setUserData]= useState();
+
   const navigate = useNavigate();
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -46,17 +49,46 @@ const NavBar = () => {
     setSearchQuery(event.target.value);
   };
 
-  const handleReset = () => {
-    setSearchQuery("");
-  };
-
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       handleSearch(searchQuery);
       navigate(`/search/${searchQuery}`);
     }
   };
+  const handleLogout=() =>{
+    logout()
+    navigate('/', { replace: true });
+    window.location.reload();
+  }
+  
+  
+  const fetchAccountData = async () => {
+    try {
+      const user = await getMe(); // Utilisez la fonction getMe pour récupérer les informations du compte
+      setUserData(user);
+      console.log(user.name)
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
+  useEffect(() => {
+    fetchAccountData();
+    console.log(userData)
+  }, []);
+
+
+  useEffect(() => {
+  
+    const userIdFromToken = GetUserIdButton();
+  
+    if (userIdFromToken) {
+      setUserId(userIdFromToken);
+      setIsConnected(true)
+    }
+  }, []);
+  
+  
   return (
     <nav className="font-mono fixed top-0 w-full flex items-center bg-white justify-between flex-wrap p-6">
       <div className="flex items-center flex-shrink-0 text-balck">
@@ -93,18 +125,22 @@ const NavBar = () => {
           />
           <div className="dropdown-menu">
             {!isConnected && (
-              <Link to="/connexion" className="dropdown-item">
-                Connexion
-              </Link>
+              <>
+           <button onClick={openModal} className="dropdown-item">
+           Connexion
+         </button>
+    
+       </>
+         
             )}
             {isConnected && (
               <>
-                <button onClick={openModal} className="dropdown-item">
-                  Connexion
-                </button>
-                <button onClick={deconnectUser()} className="dropdown-item">
+               
+                <button onClick={handleLogout} className="dropdown-item">
                   Déconnexion
                 </button>
+           
+
                 <Link to="/informations-du-compte" className="dropdown-item">
                   Informations du compte
                 </Link>
@@ -139,14 +175,14 @@ const NavBar = () => {
             </Link>
           </div>
         )}
-        {user.isAdmin && (
+        {/* {user.isAdmin && (
           <div className="flex items-center mb-6">
             <FiBarChart2 className="text-black text-xl mr-3" />
             <Link to="/dashboard-admin" className="text-black text-xl">
               Tableau de bord admin
             </Link>
           </div>
-        )}
+        )} */}
         <div className="absolute bottom-0 left-0 mb-6 p-6 w-full">
           <div className="flex items-center mb-6">
             <FiSettings className="text-black text-xl mr-3" />

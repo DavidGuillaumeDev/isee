@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Switch from 'react-switch';
+import { getMe } from '../Api/usersApi';
 
 const Account = () => {
   const initialUserData = {
-    pseudo: 'Azazel',
-    email: 'azazel@example.com',
-    password: 'AzazelPass',
+    pseudo: '',
+    email: '',
+    password: '',
     darkMode: false,
     profilePicture: ''
   };
@@ -23,7 +24,23 @@ const Account = () => {
 
   const updateProfile = () => {
     console.log('Mise à jour du profil');
+    // Effectuez ici votre logique de mise à jour du profil
   };
+
+  const fetchAccountData = async () => {
+    try {
+      const user = await getMe(); // Utilisez la fonction getMe pour récupérer les informations du compte
+      setUserData(user);
+      console.log(user.name)
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAccountData();
+  }, []);
+
 
   const deactivateAccount = () => {
     console.log('Désactivation du compte');
@@ -47,7 +64,7 @@ const Account = () => {
               name="pseudo"
               placeholder="Entrez votre pseudo"
               className="mt-1 block w-full h-12 text-lg rounded-md bg-gray-100 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-              value={userData.pseudo}
+              value={userData.name}
               onChange={handleChange}
             />
           </label>

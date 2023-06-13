@@ -69,7 +69,6 @@ const VideoPage = () => {
     return <div>Loading...</div>;
   }
 
-console.log("salut 2",videoId)
 
   return loading ? (
     <div>Loading...</div>
