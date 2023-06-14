@@ -28,7 +28,7 @@ const Home = () => {
           key={video._id}
           videoId={video._id}
           thumbnail={video.thumbnailUrl}
-          userImage={video.userImage}
+          userImage={video.user.profilePicture}
           title={video.title}
           userName={video.userName}
           views={video.views}

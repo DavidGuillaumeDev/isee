@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
-import { login } from "../Api/usersApi";
+import { login, registerUser } from "../Api/usersApi";
 import { useNavigate } from "react-router-dom";
 
 Modal.setAppElement("#root");
@@ -10,6 +10,7 @@ const AuthModal = ({ isOpen, onRequestClose }) => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [profilPicture, setProfilPicture] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
@@ -46,9 +47,13 @@ const AuthModal = ({ isOpen, onRequestClose }) => {
     }, 1000); // Délai de 1 seconde
   };
 
-  const handleRegister = async (username, email, password) => {
-    console.log(username, email, password,"INSCRIS");
+  const handleRegister = async (username, email, password, profilPicture) => {
+    registerUser(username, email, password, profilPicture);
+    setIsRegistering(false);
+      
+    console.log(username, email, password, "INSCRIS");
   };
+  
 
   useEffect(() => {
     if (!isOpen) {
@@ -74,16 +79,27 @@ const AuthModal = ({ isOpen, onRequestClose }) => {
           {isRegistering ? "Inscription" : "Connexion"}
         </h2>
         {isRegistering && (
-          <div className="mb-4">
-            <input
-              className="border-b-2 border-gray-300 focus:outline-none focus:border-indigo-500 w-full text-lg py-2 mb-2 font-mono"
-              id="username"
-              type="text"
-              placeholder="Nom d'utilisateur"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </div>
+          <>
+            <label className="block mb-6">
+              <span className="text-gray-700">Image de profil</span>
+              <input
+                type="file"
+                name="profilPicture"
+                className="mt-1 block w-full text-lg bg-gray-100 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                onChange={(e) => setProfilPicture(e.target.files[0])}
+              />
+            </label>
+            <div className="mb-4">
+              <input
+                className="border-b-2 border-gray-300 focus:outline-none focus:border-indigo-500 w-full text-lg py-2 mb-2 font-mono"
+                id="username"
+                type="text"
+                placeholder="Nom d'utilisateur"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </div>
+          </>
         )}
         <div className="mb-4">
           <input
@@ -131,7 +147,7 @@ const AuthModal = ({ isOpen, onRequestClose }) => {
             type="submit"
             onClick={() => {
               isRegistering
-                ? handleRegister(username, email, password)
+                ? handleRegister(username, email, password,profilPicture)
                 : handleLogin(email, password);
             }}
           >
