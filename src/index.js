@@ -13,6 +13,7 @@ import TrendingPage from './Containers/trendingPage';
 import UserDashboard from './Containers/userDashboard';
 import VideoDetails from './Containers/videoDétails';
 import AddVideo from './Containers/addVideo';
+import UserPage from './Containers/userPage';
 
 
 ReactDOM.render(
@@ -22,6 +23,7 @@ ReactDOM.render(
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/video/:videoId" element={<VideoPage />} />
+        <Route path="/user/:userId" element={<UserPage />} />
         <Route path="/informations-du-compte" element={<Account />} />
         <Route path="/dashboard-admin" element={<DashboardAdmin />} />
         <Route path="/search/:query" element={<SearchResult/>} />
