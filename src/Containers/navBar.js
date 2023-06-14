@@ -58,7 +58,7 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="font-mono fixed top-0 w-full flex items-center bg-white justify-between flex-wrap p-6">
+    <nav className="font-mono fixed top-0 w-full flex items-center bg-white justify-between flex-wrap p-6 shadow-md">
       <div className="flex items-center flex-shrink-0 text-balck">
         <FiMenu
           className="text-black text-3xl mr-2 cursor-pointer"
@@ -114,7 +114,7 @@ const NavBar = () => {
         </div>
       </div>
       <div
-        className={`fixed left-0 bg-white top-16 w-64 p-6 overflow-y-auto transform transition-all duration-300 ease-in-out opacity-90 ${
+        className={`fixed left-0 bg-white top-16 w-64 p-6 overflow-y-auto transform transition-all duration-300 ease-in-out opacity-90 shadow-lg -mr-2 ${
           showSidebar ? "translate-x-0" : "-translate-x-full"
         }`}
         style={{ height: "calc(100vh - 4rem)" }}

@@ -5,6 +5,7 @@ import CardDashboard from '../Components/DashboardAdmin/cardDashboard';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock, faClock, faUserCheck } from "@fortawesome/free-solid-svg-icons";
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
+import ButtonDashboard from '../Components/DashboardAdmin/buttonDashboard';
 
 
 
@@ -86,6 +87,11 @@ const UserDashboard = () => {
         <CardDashboard text="Nombre de vues sur votre dernière vidéo" stat={lastVideoViews} />
         <CardDashboard text="Nombre de commentaires sur votre dernière vidéo" stat={lastVideoComments} />
         <CardDashboard text="Lien vers votre dernière vidéo" stat={<Link to={`/video`} className="block underline-none">Cliquez ici</Link>} />
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+      <Link to={`/add-video`}>
+        <ButtonDashboard text="Ajouter une vidéo"/> 
+      </Link>
       </div>
       <div className="bg-white p-6 rounded-lg shadow-md">
       <table class="table-fixed font-roboto">
