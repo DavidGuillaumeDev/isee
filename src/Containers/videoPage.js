@@ -5,7 +5,7 @@ import CardVideoPage from "../Components/VideoPage/cardVideoPage";
 import Comments from "../Components/VideoPage/comments";
 import "../Styles/index.css";
 import ProfilPicture from "../Images/profilePictureTest.jpg";
-import { getVideoById, fetchSuggUserVideos } from "../Api/videoApi";
+import { getVideoById, fetchSuggUserVideos, incrementViews } from "../Api/videoApi";
 import { useParams  } from "react-router-dom";
 
 const VideoPage = () => {
@@ -30,6 +30,7 @@ const VideoPage = () => {
     }
   };
   useEffect(() => {
+    incrementViews(videoId)
     fetchVideoData(videoId);
   }, [videoId]);
 
@@ -39,21 +40,25 @@ const VideoPage = () => {
   
   
   useEffect(() => {
-    if (videoData) {
-      const loadVideo = async () => {
-        try {
-          const videoModule = await import(`../Videos/${videoData.fileUrl}`);
-          setVideoUrl(videoModule.default);
-          setLoading(false);
-        } catch (error) {
-          console.error(error);
-          setVideoUrl(null);
-          setLoading(false);
+    const loadVideo = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/videos/${videoData.fileUrl}`);
+        console.log(response);
+        if (!response.ok) {
+          // Si le statut HTTP n'est pas dans la plage 200-299
+          throw new Error(response.statusText);
         }
-      };
+        setVideoUrl(`http://localhost:3000/videos/${videoData.fileUrl}`);
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+        setVideoUrl(null);
+        setLoading(false);
+      }
+    };
   
+    if (videoData) {
       loadVideo();
-  
       fetchSuggUserVideos(videoData.userId)
         .then((videosData) => {
           setSuggData(videosData);
@@ -63,6 +68,7 @@ const VideoPage = () => {
         });
     }
   }, [videoData]);
+  
   
   
   if (loading) {

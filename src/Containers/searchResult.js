@@ -20,7 +20,7 @@ const SearchResult = () => {
         setLoading(true);
         const searchResults = await fetchSearchVideos(query);
         setSearchData(searchResults);
-        console.log(searchResults.users);
+        console.log("Salut",searchResults.users);
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -51,7 +51,7 @@ const SearchResult = () => {
                 <>
                   <CardUser
                     userId={data._id}
-                    profilPicture={data.profilPicture}
+                    userImage={data.profilePicture}
                     userName={data.name}
                     date={data.data}
                   />
@@ -70,7 +70,7 @@ const SearchResult = () => {
                   userName={video.user.name}
                   views={video.views}
                   date={video.date}
-                  userImage={video.userImage}
+                  userImage={video.user.profilePicture}
                   description={video.description}
                 />
               ))}

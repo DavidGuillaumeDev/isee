@@ -15,7 +15,6 @@ export const GetUserIdButton = () => {
   if (token) {
     const decodedToken = jwt_decode(token);
     const userId = decodedToken.userId;
-    console.log(userId); // Affiche l'identifiant de l'utilisateur dans la console
     return userId;
   }
 };
@@ -73,9 +72,7 @@ export const getMe = async () => {
     if (!response.ok) {
       throw new Error("Request failed");
     }
-
     const user = await response.json();
-    console.log(user);
     return user;
     // Faites quelque chose avec les données de l'utilisateur
   } catch (error) {

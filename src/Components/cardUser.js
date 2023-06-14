@@ -7,6 +7,7 @@ const CardUser = ({ userId, userImage, userName, date }) => {
   const [pictureSrc, setPictureSrc] = useState(null);
   useEffect(() => {
     const loadPictureImage = async () => {
+      console.log("IMAGE",userImage)
       try {
         const response = await fetch(
           `http://localhost:3000/images/pp/${userImage}`

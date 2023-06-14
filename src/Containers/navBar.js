@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   FiMenu,
@@ -7,21 +7,23 @@ import {
   FiVideo,
   FiSettings,
   FiHelpCircle,
-  FiUser,
   FiBarChart2,
 } from "react-icons/fi";
 import youtubeIsee from "../Images/youtubeicon.png";
-import ProfilPicture from "../Images/logoSupinfo.jpg";
 import { fetchSearchVideos } from "../Api/videoApi";
 import AuthModal from "../Components/authModal";
-import { logout,GetUserIdButton,getMe } from "../Api/usersApi";
+import { logout, GetUserIdButton, getMe } from "../Api/usersApi";
+import { checkAdminStatus } from "../Api/adminApi";
+import DefaultPicture from "../Images/DefaultUser.png";
 
 const NavBar = () => {
   const [showSidebar, setShowSidebar] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [userId, setUserId] = useState('');
-  const [userData, setUserData]= useState();
+  const [userId, setUserId] = useState("");
+  const [userData, setUserData] = useState();
+  const [isAdmina, setIsAdmin] = useState(false);
+  const [pictureSrc, setPictureSrc] = useState();
 
   const navRef = useRef(null); // Ref pour la barre de navigation
 
@@ -57,33 +59,59 @@ const NavBar = () => {
       navigate(`/search/${searchQuery}`);
     }
   };
-  const handleLogout=() =>{
-    logout()
-    navigate('/', { replace: true });
+  const handleLogout = () => {
+    logout();
+    navigate("/", { replace: true });
     window.location.reload();
-  }
+  };
 
   const handleClickOutside = (event) => {
     // Vérifiez si la barre de navigation est ouverte et si le clic est en dehors de celle-ci
-    if (showSidebar && navRef.current && !navRef.current.contains(event.target)) {
+    if (
+      showSidebar &&
+      navRef.current &&
+      !navRef.current.contains(event.target)
+    ) {
       setShowSidebar(false); // Fermez la barre de navigation
     }
   };
-  
-  
+  const loadPictureImage = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/images/pp/${userData.profilePicture}`);
+      console.log(response)
+      if (!response.ok) { // if HTTP-status is 404-599
+        throw new Error(response.statusText);
+      }
+      setPictureSrc(`http://localhost:3000/images/pp/${userData.profilePicture}`);
+    } catch (error) {
+      console.error("No image found, setting to default");
+      setPictureSrc(DefaultPicture);
+    }
+  };
+
   const fetchAccountData = async () => {
     try {
       const user = await getMe(); // Utilisez la fonction getMe pour récupérer les informations du compte
       setUserData(user);
-      console.log(user.name)
+      console.log(user.name);
     } catch (error) {
       console.error(error);
     }
   };
+  const isAdmin = async () => {
+    try {
+      const isAdmin = await checkAdminStatus();
+      setIsAdmin(isAdmin);
+      console.log(isAdmin);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
+    isAdmin();
     fetchAccountData();
-    console.log(userData)
+    loadPictureImage();
   }, []);
 
   useEffect(() => {
@@ -94,18 +122,15 @@ const NavBar = () => {
     };
   }, [showSidebar]);
 
-
   useEffect(() => {
-  
     const userIdFromToken = GetUserIdButton();
-  
+
     if (userIdFromToken) {
       setUserId(userIdFromToken);
-      setIsConnected(true)
+      setIsConnected(true);
     }
   }, []);
-  
-  
+
   return (
     <nav className="font-mono fixed top-0 w-full flex items-center bg-white justify-between flex-wrap p-6 shadow-md">
       <div className="flex items-center flex-shrink-0 text-balck">
@@ -136,27 +161,23 @@ const NavBar = () => {
       <div className="flex items-center">
         <div className="menu-container relative">
           <img
-            src={ProfilPicture}
+            src={pictureSrc}
             alt="Profil"
             className="h-12 w-12 rounded-full cursor-pointer"
           />
           <div className="dropdown-menu">
             {!isConnected && (
               <>
-           <button onClick={openModal} className="dropdown-item">
-           Connexion
-         </button>
-    
-       </>
-         
+                <button onClick={openModal} className="dropdown-item">
+                  Connexion
+                </button>
+              </>
             )}
             {isConnected && (
               <>
-               
                 <button onClick={handleLogout} className="dropdown-item">
                   Déconnexion
                 </button>
-           
 
                 <Link to="/informations-du-compte" className="dropdown-item">
                   Informations du compte
@@ -193,14 +214,14 @@ const NavBar = () => {
             </Link>
           </div>
         )}
-        {/* {user.isAdmin && (
+        {isAdmina && (
           <div className="flex items-center mb-6">
             <FiBarChart2 className="text-black text-xl mr-3" />
             <Link to="/dashboard-admin" className="text-black text-xl">
               Tableau de bord admin
             </Link>
           </div>
-        )} */}
+        )}
         <div className="absolute bottom-0 left-0 mb-6 p-6 w-full">
           <div className="flex items-center mb-6">
             <FiSettings className="text-black text-xl mr-3" />

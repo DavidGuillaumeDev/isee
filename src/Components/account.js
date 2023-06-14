@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Switch from "react-switch";
 import { getMe, GetUserIdButton, updateProfile,deactivateAccount,deleteAccount } from "../Api/usersApi";
-import { Link, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 
 
 const Account = () => {
@@ -26,8 +26,9 @@ const Account = () => {
   };
 
   const updateUser = (username, password, profilePicture) => {
-    updateProfile(userId, username, password, profilePicture); // Appel à la fonction renommée updateUser
-    console.log("Mise à jour du profil");
+    updateProfile(userId, username, password, profilePicture); 
+    navigate('/', { replace: true });
+    window.location.reload();
     // Effectuez ici votre logique de mise à jour du profil
   };
 
@@ -47,13 +48,13 @@ const Account = () => {
 
   const desactivateAccount = () => {
     deactivateAccount(userId)
-        console.log("Désactivation du compte");
+    navigate('/', { replace: true });
+    window.location.reload();
   };
 
   const deleteUserAccount = async (userId) => {
     try {
       await deleteAccount(userId);
-      console.log("Compte utilisateur supprimé avec succès");
       navigate('/', { replace: true });
     window.location.reload();
       // Effectuez ici les actions supplémentaires après la suppression du compte

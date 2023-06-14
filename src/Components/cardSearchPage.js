@@ -16,6 +16,8 @@ const CardSearchPage = ({
   const [pictureSrc, setPictureSrc] = useState(null);
   const [imageSrc, setImageSrc] = useState(null);
   useEffect(() => {
+
+
     const loadPictureImage = async () => {
       try {
         const response = await fetch(
