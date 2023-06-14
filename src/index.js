@@ -11,6 +11,8 @@ import DashboardAdmin from './Containers/dashboardAdmin';
 import SearchResult from './Containers/searchResult';
 import TrendingPage from './Containers/trendingPage';
 import UserDashboard from './Containers/userDashboard';
+import VideoDetails from './Containers/videoDétails';
+import AddVideo from './Containers/addVideo';
 
 
 ReactDOM.render(
@@ -25,6 +27,8 @@ ReactDOM.render(
         <Route path="/search/:query" element={<SearchResult/>} />
         <Route path="/tendances" element={<TrendingPage />} />
         <Route path="/dashboard-user" element={<UserDashboard />} />
+        <Route path="/video-details/:videoId" element={<VideoDetails />} />
+        <Route path="/add-video" element={<AddVideo />} />
       </Routes>
     </Router>
   </React.StrictMode>,
