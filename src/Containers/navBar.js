@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   FiMenu,
@@ -22,6 +22,8 @@ const NavBar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [userId, setUserId] = useState('');
   const [userData, setUserData]= useState();
+
+  const navRef = useRef(null); // Ref pour la barre de navigation
 
   const navigate = useNavigate();
 
@@ -60,6 +62,13 @@ const NavBar = () => {
     navigate('/', { replace: true });
     window.location.reload();
   }
+
+  const handleClickOutside = (event) => {
+    // Vérifiez si la barre de navigation est ouverte et si le clic est en dehors de celle-ci
+    if (showSidebar && navRef.current && !navRef.current.contains(event.target)) {
+      setShowSidebar(false); // Fermez la barre de navigation
+    }
+  };
   
   
   const fetchAccountData = async () => {
@@ -76,6 +85,14 @@ const NavBar = () => {
     fetchAccountData();
     console.log(userData)
   }, []);
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      // Supprimez l'écouteur d'événement au démontage pour éviter les fuites de mémoire
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showSidebar]);
 
 
   useEffect(() => {
@@ -150,6 +167,7 @@ const NavBar = () => {
         </div>
       </div>
       <div
+        ref={navRef} // Attachez la ref à ce div
         className={`fixed left-0 bg-white top-16 w-64 p-6 overflow-y-auto transform transition-all duration-300 ease-in-out opacity-90 shadow-lg -mr-2 ${
           showSidebar ? "translate-x-0" : "-translate-x-full"
         }`}
