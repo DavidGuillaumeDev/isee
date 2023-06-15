@@ -6,10 +6,21 @@ const jwt = localStorage.getItem("jwt") // Récupérer le token stocké
 
 
 const setJwtCookie = (token) => {
-  Cookies.set("jwt", token, { sameSite: "none", secure: true });
-  localStorage.setItem("jwt", token, { sameSite: "none", secure: true });
+  // Définir la durée de validité du cookie à 1 heure
+  const expirationDate = new Date();
+  expirationDate.setTime(expirationDate.getTime() + 60 * 60 * 1000); // 1 heure en millisecondes
 
+  Cookies.set("jwt", token, {
+    expires: expirationDate,
+    sameSite: "none",
+    secure: true,
+  });
+  localStorage.setItem("jwt", token, {
+    sameSite: "none",
+    secure: true,
+  });
 };
+
 export const GetUserIdButton = () => {
   const token = Cookies.get("jwt"); // Récupère le token depuis le cookie
   if (token) {
@@ -43,7 +54,6 @@ export const login = async (email, password) => {
 };
 
 export const logout = async () => {
-  console.log(urlApi + "user/logout");
   try {
     const response = await fetch(urlApi + "user/logout", {
       method: "POST",
@@ -51,6 +61,9 @@ export const logout = async () => {
     });
 
     if (response.ok) {
+      // Supprimer le cookie en utilisant js-cookie
+      Cookies.remove("jwt", { sameSite: "none", secure: true });
+
       const data = await response.json();
       return data;
     } else {
@@ -61,6 +74,7 @@ export const logout = async () => {
     throw error;
   }
 };
+
 
 export const getMe = async () => {
   try {
@@ -149,6 +163,7 @@ export const deactivateAccount = async (userId) => {
     throw error;
   }
 }
+
 export const deleteAccount = async (userId) => {
   const tokenFront = jwt;
  
@@ -172,4 +187,7 @@ export const deleteAccount = async (userId) => {
     throw error;
   }
 };
+
+
+
 

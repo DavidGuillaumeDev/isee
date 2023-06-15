@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import CardDashboard from "../Components/DashboardAdmin/cardDashboard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,13 +11,22 @@ import {
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import ButtonDashboard from "../Components/DashboardAdmin/buttonDashboard";
 import { GetUserIdButton } from "../Api/usersApi";
-import { fetchUserVideos, blockVideo } from "../Api/videoApi";
+import {
+  fetchUserVideos,
+  blockVideo,
+  blockAndUnhideVideo,
+  hideVideo,
+  deleteVideo,
+} from "../Api/videoApi";
 
 const UserDashboard = () => {
-  const lastVideoViews = 2500;
-  const lastVideoComments = 1050;
   const [userId, setUserId] = useState(null);
   const [videos, setVideos] = useState([]);
+  const [lastVideoViews, setLastVideoViews] = useState(0);
+  const [lastVideoComments, setLastVideoComments] = useState();
+  const [lastVideoId, setLastVideoId] = useState("");
+
+  const navigate = useNavigate();
 
   const fetchUserId = () => {
     const userIdFromToken = GetUserIdButton();
@@ -31,6 +40,14 @@ const UserDashboard = () => {
       fetchUserVideos(userId)
         .then((videosData) => {
           setVideos(videosData);
+          // Mettre à jour les données de la dernière vidéo
+          if (videosData.length > 0) {
+            const lastVideo = videosData[0];
+            setLastVideoViews(lastVideo.views);
+            setLastVideoComments(lastVideo.comments.length);
+            setLastVideoId(lastVideo._id);
+            console.log(lastVideo.comments.length)
+          }
         })
         .catch((error) => {
           console.error(error);
@@ -40,6 +57,36 @@ const UserDashboard = () => {
 
   const handleBlockVideo = (videoId) => {
     blockVideo(videoId)
+      .then(() => {
+        fetchUserVideosData();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const handleDeleteVideo = (videoId) => {
+    deleteVideo(videoId)
+      .then(() => {
+        fetchUserVideosData();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const handleUnblockAndUnhide = (videoId) => {
+    blockAndUnhideVideo(videoId)
+      .then(() => {
+        fetchUserVideosData();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const handleHideVideo = (videoId) => {
+    hideVideo(videoId)
       .then(() => {
         fetchUserVideosData();
       })
@@ -99,7 +146,6 @@ const UserDashboard = () => {
         icon: faTrashAlt,
       },
     ];
-
     return actions
       .filter((action) => action.label !== video.state)
       .map((action) => (
@@ -108,8 +154,18 @@ const UserDashboard = () => {
           key={action.label}
           onClick={() => {
             if (action.label === "Non Repertorié") {
-              console.log(video._id)
               handleBlockVideo(video._id);
+            } else if (action.label === "Privé") {
+              handleHideVideo(video._id);
+            } else if (action.label === "Public") {
+              handleUnblockAndUnhide(video._id);
+            } else if (action.label === "Supprimer") {
+              handleDeleteVideo(video._id);
+            }
+            else if(action.label==="Détails"){
+            
+              navigate(`/video-details/${video._id}`);
+
             }
           }}
         >
@@ -118,7 +174,6 @@ const UserDashboard = () => {
         </button>
       ));
   };
-
   return (
     <div className="dashboard-admin p-8 mt-16">
       <h1 className="text-4xl font-semibold mb-6 text-gray-800 text-center font-mono">
@@ -136,7 +191,7 @@ const UserDashboard = () => {
         <CardDashboard
           text="Lien vers votre dernière vidéo"
           stat={
-            <Link to={`/video`} className="block underline-none">
+            <Link to={`/video/${lastVideoId}`} className="block underline-none">
               Cliquez ici
             </Link>
           }

@@ -90,9 +90,9 @@ export const updateVideo = (videoId, updatedData) => {
     });
 };
 
-export const blockVideo = (userId) => {
-  console.log(userId)
-  return fetch(`${urlApi}video/${userId}/block`, {
+export const blockVideo = (videoId) => {
+  console.log(videoId)
+  return fetch(`${urlApi}video/${videoId}/block`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -108,6 +108,29 @@ export const blockVideo = (userId) => {
     })
     .then((data) => {
       console.log(data); // Succès de blocage de la vidéo
+    })
+    .catch((error) => {
+      console.error(error.message); // Gestion de l'erreur de la requête
+    });
+};
+
+export const hideVideo = (videoId) => {
+  return fetch(`${urlApi}video/${videoId}/hide`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials:"include"
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(response.statusText);
+      }
+    })
+    .then((data) => {
+      console.log(data); // Succès de la masquage de la vidéo
     })
     .catch((error) => {
       console.error(error.message); // Gestion de l'erreur de la requête
@@ -167,4 +190,50 @@ export const incrementViews = async (videoId) => {
   } catch (error) {
     throw error;
   }
+};
+
+export const blockAndUnhideVideo = (videoId) => {
+  return fetch(`${urlApi}video/${videoId}/public`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials:"include",
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(response.statusText);
+      }
+    })
+    .then((data) => {
+      console.log(data); // Succès de la mise à jour du statut de la vidéo
+    })
+    .catch((error) => {
+      console.error(error.message); // Gestion de l'erreur de la requête
+    });
+};
+
+export const deleteVideo = (videoId) => {
+  return fetch(`${urlApi}video/${videoId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials:"include",
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error(response.statusText);
+      }
+    })
+    .then((data) => {
+      console.log(data); // Succès de la suppression de la vidéo
+    })
+    .catch((error) => {
+      console.error(error.message); // Gestion de l'erreur de la requête
+    });
 };

@@ -20,7 +20,6 @@ const SearchResult = () => {
         setLoading(true);
         const searchResults = await fetchSearchVideos(query);
         setSearchData(searchResults);
-        console.log("Salut",searchResults.users);
         setLoading(false);
       } catch (error) {
         console.error(error);
