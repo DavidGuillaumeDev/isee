@@ -32,7 +32,6 @@ const NavBar = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const openModal = () => {
-    console.log("openModal");
     setModalIsOpen(true);
   };
 
@@ -42,8 +41,7 @@ const NavBar = () => {
 
   const handleSearch = async (query) => {
     try {
-      const searchResults = await fetchSearchVideos(query);
-      console.log("Search", searchResults);
+      await fetchSearchVideos(query);
     } catch (error) {
       console.error(error);
       // Gérez les erreurs de recherche
@@ -77,12 +75,16 @@ const NavBar = () => {
   };
   const loadPictureImage = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/images/pp/${userData.profilePicture}`);
-      console.log(response)
-      if (!response.ok) { // if HTTP-status is 404-599
+      const response = await fetch(
+        `http://localhost:3000/images/pp/${userData.profilePicture}`
+      );
+      if (!response.ok) {
+        // if HTTP-status is 404-599
         throw new Error(response.statusText);
       }
-      setPictureSrc(`http://localhost:3000/images/pp/${userData.profilePicture}`);
+      setPictureSrc(
+        `http://localhost:3000/images/pp/${userData.profilePicture}`
+      );
     } catch (error) {
       console.error("No image found, setting to default");
       setPictureSrc(DefaultPicture);
@@ -93,7 +95,6 @@ const NavBar = () => {
     try {
       const user = await getMe(); // Utilisez la fonction getMe pour récupérer les informations du compte
       setUserData(user);
-      console.log(user.name);
     } catch (error) {
       console.error(error);
     }
@@ -102,7 +103,6 @@ const NavBar = () => {
     try {
       const isAdmin = await checkAdminStatus();
       setIsAdmin(isAdmin);
-      console.log(isAdmin);
     } catch (error) {
       console.log(error);
     }

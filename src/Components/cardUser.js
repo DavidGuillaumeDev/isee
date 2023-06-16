@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Miniature from "../Images/profilePictureTest.jpg";
 import DefaultPicture from "../Images/DefaultUser.png";
 
 const CardUser = ({ userId, userImage, userName, date }) => {
   const [pictureSrc, setPictureSrc] = useState(null);
   useEffect(() => {
     const loadPictureImage = async () => {
-      console.log("IMAGE",userImage)
       try {
         const response = await fetch(
           `http://localhost:3000/images/pp/${userImage}`
         );
-        console.log(response);
         if (!response.ok) {
           // if HTTP-status is 404-599
           throw new Error(response.statusText);
@@ -44,9 +41,7 @@ const CardUser = ({ userId, userImage, userName, date }) => {
             <div className="flex justify-between items-center mb-2">
               <p>{date}</p>
             </div>
-            <div className="text-description overflow-hidden whitespace-normal overflow-ellipsis">
-              {/* {description} */}
-            </div>
+            <div className="text-description overflow-hidden whitespace-normal overflow-ellipsis"></div>
           </div>
         </div>
       </div>

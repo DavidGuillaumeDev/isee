@@ -1,58 +1,49 @@
-import React, { useState, useEffect } from 'react';
-import { FiUser } from 'react-icons/fi';
-import Comment from './comment';
-import DefaultUserProfilePicture from '../../Images/DefaultUser.png';
-import { createComment, getCommentsByVideoId } from '../../Api/commentsApi';
+import React, { useState, useEffect } from "react";
+import { FiUser } from "react-icons/fi";
+import Comment from "./comment";
+import { createComment, getCommentsByVideoId } from "../../Api/commentsApi";
 
 const Comments = ({ videoId }) => {
   const [parentsComments, setParentsComments] = useState([]);
-  const [childComments, setChildComments] = useState([])
-  const [newComment, setNewComment] = useState('');
+  const [childComments, setChildComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
 
   const handleCommentChange = (e) => {
     setNewComment(e.target.value);
   };
 
   const handleCreateComment = async (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       try {
-        const comment = await createComment(videoId, newComment);
-        console.log('Comment created:', comment);
-        setNewComment('');
+        await createComment(videoId, newComment);
+        setNewComment("");
 
         setTimeout(() => {
           fetchComments();
         }, 5000);
-        
       } catch (error) {
-        console.error('Failed to create comment:', error);
+        console.error("Failed to create comment:", error);
       }
     }
   };
   const fetchComments = async () => {
     try {
       const commentsData = await getCommentsByVideoId(videoId);
-      const parentComments = commentsData.filter(comment => !comment.parentId);
-      const childComments = commentsData.filter(comment => comment.parentId);
+      const parentComments = commentsData.filter(
+        (comment) => !comment.parentId
+      );
+      const childComments = commentsData.filter((comment) => comment.parentId);
 
-      setChildComments(childComments)
+      setChildComments(childComments);
       setParentsComments(parentComments);
     } catch (error) {
-      console.error('Failed to fetch comments:', error);
+      console.error("Failed to fetch comments:", error);
     }
   };
   useEffect(() => {
-
-  
     fetchComments();
-  
-    // Utilisation d'une fonction d'écoute pour rafraîchir les commentaires
-    // const refreshComments = setInterval(fetchComments, 5000); // Rafraîchit toutes les 5 secondes
-  
-    // Nettoyage de la fonction d'écoute lors du démontage du composant
-    // return () => clearInterval(refreshComments);
   }, [videoId]);
-  
+
   return (
     <div className="comments">
       <div className="flex items-center mb-4">
@@ -67,20 +58,19 @@ const Comments = ({ videoId }) => {
         />
       </div>
       <div className="comment-list">
-  {parentsComments.map((comment) => (
-    <Comment
-      key={comment._id}
-      userImage={comment.user.profilePicture}
-      userName={comment.user.name}
-      date={comment.createdAt}
-      comment={comment.content}
-      userId={comment.user._id}
-      commentId={comment._id}
-      childComments={childComments}
-    />
-  ))}
-</div>
-
+        {parentsComments.map((comment) => (
+          <Comment
+            key={comment._id}
+            userImage={comment.user.profilePicture}
+            userName={comment.user.name}
+            date={comment.createdAt}
+            comment={comment.content}
+            userId={comment.user._id}
+            commentId={comment._id}
+            childComments={childComments}
+          />
+        ))}
+      </div>
     </div>
   );
 };

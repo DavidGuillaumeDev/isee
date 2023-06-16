@@ -165,7 +165,6 @@ export const deactivateAccount = async (userId) => {
 };
 
 export const deleteAccount = async (userId) => {
-
   try {
     const response = await fetch(urlApi + `user/${userId}/delete`, {
       method: "DELETE",

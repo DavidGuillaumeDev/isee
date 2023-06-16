@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import ButtonDashboard from '../Components/DashboardAdmin/buttonDashboard';
-import HomeUser from '../Components/UserPage/homeUser';
-import CommentUser from '../Components/UserPage/commentsUser';
-import VideoUser from '../Components/UserPage/videosUser';
-import { useParams } from 'react-router-dom';
-import { getUserById } from '../Api/usersApi';
-import DefaultPicture from '../Images/DefaultUser.png';
+import React, { useState, useEffect } from "react";
+import ButtonDashboard from "../Components/DashboardAdmin/buttonDashboard";
+import HomeUser from "../Components/UserPage/homeUser";
+import CommentUser from "../Components/UserPage/commentsUser";
+import VideoUser from "../Components/UserPage/videosUser";
+import { useParams } from "react-router-dom";
+import { getUserById } from "../Api/usersApi";
+import DefaultPicture from "../Images/DefaultUser.png";
 
 const UserPage = () => {
-  const [selectedComponent, setSelectedComponent] = useState('home');
+  const [selectedComponent, setSelectedComponent] = useState("home");
   const [userData, setUserData] = useState(null);
   const [videoData, setVideoData] = useState(null);
   const [pictureSrc, setPictureSrc] = useState(null);
@@ -32,13 +32,17 @@ const UserPage = () => {
 
   const loadPictureImage = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/images/pp/${userData.profilePicture}`);
+      const response = await fetch(
+        `http://localhost:3000/images/pp/${userData.profilePicture}`
+      );
       if (!response.ok) {
         throw new Error(response.statusText);
       }
-      setPictureSrc(`http://localhost:3000/images/pp/${userData.profilePicture}`);
+      setPictureSrc(
+        `http://localhost:3000/images/pp/${userData.profilePicture}`
+      );
     } catch (error) {
-      console.error('No image found, setting to default');
+      console.error("No image found, setting to default");
       setPictureSrc(DefaultPicture);
     }
   };
@@ -55,12 +59,18 @@ const UserPage = () => {
 
   const renderSelectedComponent = () => {
     switch (selectedComponent) {
-      case 'home':
+      case "home":
         return <HomeUser />;
-      case 'videos':
+      case "videos":
         return <VideoUser videoData={videoData} userData={userData} />;
-      case 'comments':
-        return <CommentUser commentsData={commentsData} userData={userData} videoData={videoData} />;
+      case "comments":
+        return (
+          <CommentUser
+            commentsData={commentsData}
+            userData={userData}
+            videoData={videoData}
+          />
+        );
       default:
         return <HomeUser />;
     }
@@ -73,19 +83,31 @@ const UserPage = () => {
   return (
     <div className="dashboard-admin p-8 mt-16">
       <h1 className="text-4xl font-semibold mb-6 text-gray-800 text-center font-roboto">
-        <div className='flex items-center justify-center p-4'>
-        {pictureSrc && (
-          <img className="w-10 h-10 rounded-full" src={pictureSrc} alt={userData.name} />
-        )}
-        <div className='pl-4'/>
-        <p>{userData.name}</p>
+        <div className="flex items-center justify-center p-4">
+          {pictureSrc && (
+            <img
+              className="w-10 h-10 rounded-full"
+              src={pictureSrc}
+              alt={userData.name}
+            />
+          )}
+          <div className="pl-4" />
+          <p>{userData.name}</p>
         </div>
-       
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <ButtonDashboard text="A propos" onClick={() => setSelectedComponent('home')} />
-        <ButtonDashboard text="Voir les vidéos" onClick={() => setSelectedComponent('videos')} />
-        <ButtonDashboard text="Voir les commentaires" onClick={() => setSelectedComponent('comments')} />
+        <ButtonDashboard
+          text="A propos"
+          onClick={() => setSelectedComponent("home")}
+        />
+        <ButtonDashboard
+          text="Voir les vidéos"
+          onClick={() => setSelectedComponent("videos")}
+        />
+        <ButtonDashboard
+          text="Voir les commentaires"
+          onClick={() => setSelectedComponent("comments")}
+        />
       </div>
       {renderSelectedComponent()}
     </div>

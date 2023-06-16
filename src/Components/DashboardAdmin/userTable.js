@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserEdit, faUserMinus } from "@fortawesome/free-solid-svg-icons";
 import { deleteAccount } from "../../Api/usersApi";
@@ -35,7 +34,11 @@ const UserTable = ({ users }) => {
     ];
 
     return actions.map((action) => (
-      <button className={action.classes} key={action.label} onClick={action.onClick}>
+      <button
+        className={action.classes}
+        key={action.label}
+        onClick={action.onClick}
+      >
         <FontAwesomeIcon icon={action.icon} /> {action.label}
       </button>
     ));

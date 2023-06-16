@@ -4,14 +4,15 @@ import LiveChat from "../Components/VideoPage/liveChat";
 import CardVideoPage from "../Components/VideoPage/cardVideoPage";
 import Comments from "../Components/VideoPage/comments";
 import "../Styles/index.css";
-import DefaultPicture from "../Images/DefaultUser.png";
-import { getVideoById, fetchSuggUserVideos, incrementViews } from "../Api/videoApi";
-import { useParams  } from "react-router-dom";
+import {
+  getVideoById,
+  fetchSuggUserVideos,
+  incrementViews,
+} from "../Api/videoApi";
+import { useParams } from "react-router-dom";
 
 const VideoPage = () => {
   const { videoId } = useParams();
-
-
 
   document.title = "VideoPage";
   const [videoData, setVideoData] = useState(null);
@@ -30,21 +31,20 @@ const VideoPage = () => {
     }
   };
   useEffect(() => {
-    incrementViews(videoId)
+    incrementViews(videoId);
     fetchVideoData(videoId);
   }, [videoId]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [videoId]);
-  
-  
+
   useEffect(() => {
- 
     const loadVideo = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/videos/${videoData.fileUrl}`);
-        console.log(response);
+        const response = await fetch(
+          `http://localhost:3000/videos/${videoData.fileUrl}`
+        );
         if (!response.ok) {
           // Si le statut HTTP n'est pas dans la plage 200-299
           throw new Error(response.statusText);
@@ -57,7 +57,7 @@ const VideoPage = () => {
         setLoading(false);
       }
     };
-  
+
     if (videoData) {
       loadVideo();
       fetchSuggUserVideos(videoData.userId)
@@ -69,9 +69,7 @@ const VideoPage = () => {
         });
     }
   }, [videoData]);
-  
-  
-  
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -79,7 +77,7 @@ const VideoPage = () => {
   return loading ? (
     <div>Loading...</div>
   ) : (
-    <div className="video-page-container" >
+    <div className="video-page-container">
       <div className="video-and-livechat-container mt-24 mx-2 lg:mx-24">
         <div className="video-and-comments-container mb-6 mt-6">
           <div className="mb-6">
@@ -109,7 +107,7 @@ const VideoPage = () => {
             {suggData.map((video) => (
               <CardVideoPage
                 key={video._id}
-                videoId= {video._id}
+                videoId={video._id}
                 thumbnail={video.thumbnailUrl}
                 title={video.title}
                 userName={video.user.name}
@@ -117,7 +115,6 @@ const VideoPage = () => {
                 date={video.createdAt}
                 userImage={video.user.profilePicture}
                 userId={videoData.user._id}
-
               />
             ))}
           </div>

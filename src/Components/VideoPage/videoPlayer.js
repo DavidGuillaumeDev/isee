@@ -1,23 +1,33 @@
-import React, { useRef, useState,useEffect } from 'react';
-import { FiDownload, FiMaximize2, FiPlay, FiPause } from 'react-icons/fi';
-import DefaultPicture from '../../Images/DefaultUser.png'
-
+import React, { useRef, useState, useEffect } from "react";
+import { FiDownload, FiMaximize2, FiPlay, FiPause } from "react-icons/fi";
+import DefaultPicture from "../../Images/DefaultUser.png";
 import "../../Styles/index.css";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
-const VideoPlayer = ({ src, title, userImage, userName, views, description,userId }) => {
+const VideoPlayer = ({
+  src,
+  title,
+  userImage,
+  userName,
+  views,
+  description,
+  userId,
+}) => {
   const videoRef = useRef();
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [volume, setVolume] = useState(1);
-  
+
   const [pictureSrc, setPictureSrc] = useState(null);
 
   useEffect(() => {
     const loadPictureImage = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/images/pp/${userImage}`);
-        if (!response.ok) { // if HTTP-status is 404-599
+        const response = await fetch(
+          `http://localhost:3000/images/pp/${userImage}`
+        );
+        if (!response.ok) {
+          // if HTTP-status is 404-599
           throw new Error(response.statusText);
         }
         setPictureSrc(`http://localhost:3000/images/pp/${userImage}`);
@@ -40,12 +50,15 @@ const VideoPlayer = ({ src, title, userImage, userName, views, description,userI
   };
 
   const handleTimeUpdate = () => {
-    const currentProgress = (videoRef.current.currentTime / videoRef.current.duration) * 100;
+    const currentProgress =
+      (videoRef.current.currentTime / videoRef.current.duration) * 100;
     setProgress(currentProgress);
   };
 
   const handleScrub = (e) => {
-    const scrubTime = (e.nativeEvent.offsetX / e.target.offsetWidth) * videoRef.current.duration;
+    const scrubTime =
+      (e.nativeEvent.offsetX / e.target.offsetWidth) *
+      videoRef.current.duration;
     videoRef.current.currentTime = scrubTime;
   };
 
@@ -62,14 +75,20 @@ const VideoPlayer = ({ src, title, userImage, userName, views, description,userI
   };
 
   const handleDownload = () => {
-    window.open(src, '_blank');
+    window.open(src, "_blank");
   };
 
   return (
     <div className="video-player-container">
       <div className="video-player relative">
-        <video ref={videoRef} src={src} onTimeUpdate={handleTimeUpdate} onClick={handlePlayPause} className="w-full" />
-        
+        <video
+          ref={videoRef}
+          src={src}
+          onTimeUpdate={handleTimeUpdate}
+          onClick={handlePlayPause}
+          className="w-full"
+        />
+
         <div className="progress-container w-full absolute bottom-0 left-0">
           <div className="progress-bar" onClick={handleScrub}>
             <div className="progress" style={{ width: `${progress}%` }}></div>
@@ -77,7 +96,6 @@ const VideoPlayer = ({ src, title, userImage, userName, views, description,userI
         </div>
 
         <div className="controls-container absolute bottom-0 left-0 w-full py-1 flex justify-between items-center opacity-0 hover:opacity-100 transition-opacity bg-black bg-opacity-50">
-       
           <div className="left-controls flex items-center">
             <button onClick={handlePlayPause} className="text-white p-2">
               {isPlaying ? <FiPause /> : <FiPlay />}
@@ -101,12 +119,11 @@ const VideoPlayer = ({ src, title, userImage, userName, views, description,userI
               <FiDownload />
             </button>
           </div>
-
         </div>
       </div>
-        <div className="video-info flex flex-col items-start bg-gray-200 p-4">
-          <h2 className="video-title text-xl font-bold mb-2">{title}</h2>
-          <div className="user-and-views flex items-center mb-2">
+      <div className="video-info flex flex-col items-start bg-gray-200 p-4">
+        <h2 className="video-title text-xl font-bold mb-2">{title}</h2>
+        <div className="user-and-views flex items-center mb-2">
           <Link to={`/user/${userId}`}>
             <div className="flex items-center flex-col justify-center">
               <img
@@ -119,11 +136,11 @@ const VideoPlayer = ({ src, title, userImage, userName, views, description,userI
               </div>
             </div>
           </Link>
-            <span>{views} vues</span>
-          </div>
-          <p className="video-description text-sm">{description}</p>
+          <span>{views} vues</span>
         </div>
+        <p className="video-description text-sm">{description}</p>
       </div>
+    </div>
   );
 };
 

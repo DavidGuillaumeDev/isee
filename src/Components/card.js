@@ -12,7 +12,6 @@ const Card = ({
   views,
   date,
   videoId,
-  description,
 }) => {
   const [pictureSrc, setPictureSrc] = useState(null);
   const [imageSrc, setImageSrc] = useState(null);

@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { createVideo } from "../Api/videoApi";
 import { GetUserIdButton } from "../Api/usersApi";
-import {useNavigate } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 
 const AddVideo = () => {
   const [title, setTitle] = useState("");
@@ -14,11 +13,10 @@ const AddVideo = () => {
   const navigate = useNavigate();
 
   const handleSubmit = () => {
+    createVideo(userId, title, description, videoFile, thumbnailFile, status);
 
-    createVideo(userId, title, description, videoFile, thumbnailFile,status);
-  
     setTimeout(() => {
-      navigate('/', { replace: true });
+      navigate("/", { replace: true });
       window.location.reload();
     }, 1000); // Délai de 1 seconde
   };

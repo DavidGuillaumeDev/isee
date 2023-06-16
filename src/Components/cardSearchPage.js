@@ -21,7 +21,6 @@ const CardSearchPage = ({
         const response = await fetch(
           `http://localhost:3000/images/pp/${userImage}`
         );
-        console.log(response);
         if (!response.ok) {
           // if HTTP-status is 404-599
           throw new Error(response.statusText);

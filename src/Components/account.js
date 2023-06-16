@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Switch from "react-switch";
-import { getMe, GetUserIdButton, updateProfile,deactivateAccount,deleteAccount } from "../Api/usersApi";
-import {useNavigate } from "react-router-dom";
-
+import {
+  getMe,
+  GetUserIdButton,
+  updateProfile,
+  deactivateAccount,
+  deleteAccount,
+} from "../Api/usersApi";
+import { useNavigate } from "react-router-dom";
 
 const Account = () => {
   const [userData, setUserData] = useState("");
@@ -12,22 +17,13 @@ const Account = () => {
   const userId = GetUserIdButton();
   const navigate = useNavigate();
 
-
-  // const handleChange = (event) => {
-  //   const value =
-  //     event.target.type === "checkbox"
-  //       ? event.target.checked
-  //       : event.target.value;
-  //   setUserData({ ...userData, [event.target.name]: value });
-  // };
-
   const handleSwitchChange = (checked) => {
     setUserData({ ...userData, darkMode: checked });
   };
 
   const updateUser = (username, password, profilePicture) => {
-    updateProfile(userId, username, password, profilePicture); 
-    navigate('/', { replace: true });
+    updateProfile(userId, username, password, profilePicture);
+    navigate("/", { replace: true });
     window.location.reload();
     // Effectuez ici votre logique de mise à jour du profil
   };
@@ -36,7 +32,6 @@ const Account = () => {
     try {
       const user = await getMe(); // Utilisez la fonction getMe pour récupérer les informations du compte
       setUserData(user);
-      console.log(user.name);
     } catch (error) {
       console.error(error);
     }
@@ -47,20 +42,18 @@ const Account = () => {
   }, []);
 
   const desactivateAccount = () => {
-    deactivateAccount(userId)
-    navigate('/', { replace: true });
+    deactivateAccount(userId);
+    navigate("/", { replace: true });
     window.location.reload();
   };
 
   const deleteUserAccount = async (userId) => {
     try {
       await deleteAccount(userId);
-      navigate('/', { replace: true });
-    window.location.reload();
-      // Effectuez ici les actions supplémentaires après la suppression du compte
+      navigate("/", { replace: true });
+      window.location.reload();
     } catch (error) {
       console.error(error);
-      // Gérez ici les erreurs lors de la suppression du compte
     }
   };
   return (

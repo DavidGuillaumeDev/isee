@@ -63,66 +63,31 @@ const HomeDashboard = () => {
 
   //   return data;
   // };
+  const fetchData = (fetchMethod, setState) => {
+    fetchMethod()
+      .then((data) => {
+        setState(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   useEffect(() => {
+    const fetchMethod =
+      filter === "day"
+        ? fetchDailyDashboard
+        : filter === "week"
+        ? fetchWeeklyDashboard
+        : fetchMonthlyDashboard;
+
     if (displayType === "numbers") {
-      // Récupérer les données du tableau en fonction du filtre
-      if (filter === "day") {
-        fetchDailyDashboard()
-          .then((data) => {
-            setTableData(data);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      } else if (filter === "week") {
-        fetchWeeklyDashboard()
-          .then((data) => {
-            setTableData(data);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      } else if (filter === "month") {
-        fetchMonthlyDashboard()
-          .then((data) => {
-            setTableData(data);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      }
-    } else if (displayType === "lineChart") {
-      // Récupérer les données du graphique en fonction du filtre
-      if (filter === "day") {
-        fetchDailyDashboard()
-          .then((data) => {
-            setChartData(data);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      } else if (filter === "week") {
-        fetchWeeklyDashboard()
-          .then((data) => {
-            setChartData(data);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      } else if (filter === "month") {
-        fetchMonthlyDashboard()
-          .then((data) => {
-            setChartData(data);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      }
+      fetchData(fetchMethod, setTableData);
+    } else if (displayType === "lineChart" || displayType === "barChart") {
+      fetchData(fetchMethod, setChartData);
     }
   }, [filter, displayType]);
 
-  // const tableData = generateTableData();
   const formatDate = (date) => {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return new Date(date).toLocaleDateString(undefined, options);
@@ -202,7 +167,9 @@ const HomeDashboard = () => {
                   {filter === "day"
                     ? data.day
                     : filter === "week"
-                    ? `Semaine du ${formatDate(data.startDate )} au ${formatDate(data.endDate)}`
+                    ? `Semaine du ${formatDate(data.startDate)} au ${formatDate(
+                        data.endDate
+                      )}`
                     : data.month}
                 </td>
                 <td className="px-4 py-2 text-center">{data.totalUsers}</td>
@@ -216,7 +183,16 @@ const HomeDashboard = () => {
         <ResponsiveContainer width="100%" height={400}>
           <LineChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="day" tick={<CustomizedAxisTick />} />
+            <XAxis
+              dataKey={
+                filter === "month"
+                  ? "month"
+                  : filter === "week"
+                  ? "week"
+                  : "day"
+              }
+              tick={<CustomizedAxisTick />}
+            />
             <YAxis />
             <Tooltip />
             <Legend />
@@ -235,7 +211,16 @@ const HomeDashboard = () => {
         <ResponsiveContainer width="100%" height={400}>
           <BarChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="day" tick={<CustomizedAxisTick />} />
+            <XAxis
+              dataKey={
+                filter === "month"
+                  ? "month"
+                  : filter === "week"
+                  ? "week"
+                  : "day"
+              }
+              tick={<CustomizedAxisTick />}
+            />
             <YAxis />
             <Tooltip />
             <Legend />

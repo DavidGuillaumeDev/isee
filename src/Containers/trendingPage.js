@@ -1,28 +1,24 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import "../Styles/index.css";
-import CardTrendingPage from '../Components/TrendingPage/cardTrendingPage';
+import CardTrendingPage from "../Components/TrendingPage/cardTrendingPage";
 import { FiTrendingUp } from "react-icons/fi";
-import { getTopVideos } from '../Api/videoApi';
-
+import { getTopVideos } from "../Api/videoApi";
 
 const TrendingPage = () => {
   document.title = "Tendances";
-  const [videosData,setVideoData] = useState([])
+  const [videosData, setVideoData] = useState([]);
   useEffect(() => {
     const fetchTopVideos = async () => {
       try {
         const data = await getTopVideos();
         setVideoData(data);
       } catch (error) {
-        console.error('Failed to fetch top videos:', error);
+        console.error("Failed to fetch top videos:", error);
       }
     };
 
     fetchTopVideos();
   }, []);
-
-  console.log(videosData)
-
 
   return (
     <div className="trending-page-container mt-24 mx-2 ">

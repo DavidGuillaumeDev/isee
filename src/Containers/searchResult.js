@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "../Styles/index.css";
-import Miniature from "../Images/miniatureTest.jpg";
-import ProfilPicture from "../Images/profilePictureTest.jpg";
 import CardSearchPage from "../Components/cardSearchPage";
 import { FiTrendingUp } from "react-icons/fi";
 import { useParams } from "react-router-dom";

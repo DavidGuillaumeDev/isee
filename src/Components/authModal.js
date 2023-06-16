@@ -19,28 +19,8 @@ const AuthModal = ({ isOpen, onRequestClose }) => {
 
   const navigate = useNavigate();
 
-  // const handleSubmit = (event) => {
-  //     console.log('handleSubmit');
-  //     event.preventDefault();
-  //     if (isRegistering) {
-  //         if (password !== confirmPassword) {
-  //             setPasswordError(true);
-  //             setErrorMessage('Les mots de passe ne correspondent pas.');
-  //             console.log('Mdp Different');
-  //             setShowError(true);
-  //             setTimeout(() => {
-  //                 setShowError(false);
-  //             }, 3000);
-  //         } else {
-  //             setPasswordError(false);
-  //             console.log('inscription');
-  //             // Traitement de l'inscription
-  //         }
-  //     }
-  // };
 
   const handleLogin = async () => {
-    
     login(email, password);
     navigate("/", { replace: true });
     setTimeout(() => {
@@ -51,7 +31,7 @@ const AuthModal = ({ isOpen, onRequestClose }) => {
   const handleRegister = async (username, email, password, profilPicture) => {
     registerUser(username, email, password, profilPicture);
     setIsRegistering(false);
-      
+
     console.log(username, email, password, "INSCRIS");
   };
 
@@ -72,10 +52,9 @@ const AuthModal = ({ isOpen, onRequestClose }) => {
       handleLogin(email, password);
     }
   };
-  
 
   const handleKeyPress = (event) => {
-    console.log(event)
+    console.log(event);
     if (event.key === "Enter") {
       event.preventDefault();
       handleSubmit();
@@ -173,7 +152,6 @@ const AuthModal = ({ isOpen, onRequestClose }) => {
             disabled={isRegistering && password !== confirmPassword}
             type="submit"
             onClick={handleSubmit}
-
           >
             {isRegistering ? "S'inscrire" : "Se connecter"}
           </button>

@@ -21,7 +21,6 @@ const Comment = ({
   const [comments, setComments] = useState([]);
   const [replyComment, setReplyComment] = useState("");
 
-  console.log(childComments);
 
   useEffect(() => {
     const loadPictureImage = async () => {
@@ -46,7 +45,6 @@ const Comment = ({
     const fetchVideoInfo = async () => {
       try {
         const video = await getVideoById(videoData);
-        console.log(video);
         setVideoInfo(video);
       } catch (error) {
         console.error("Failed to fetch video information:", error);
@@ -70,7 +68,6 @@ const Comment = ({
     if (e.key === "Enter") {
       try {
         const reply = await createCommentReply(commentId, replyComment);
-        console.log("Reply created:", reply);
         setReplyComment("");
         setComments([...comments, reply]);
         setShowReplyInput(false);

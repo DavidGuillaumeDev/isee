@@ -67,12 +67,9 @@ export const createVideo = async (
   }
 };
 
-export const updateVideo = (
-  videoId,
- videoData
-) => {
+export const updateVideo = (videoId, videoData) => {
   const formData = new FormData();
-  formData.append("videoId",videoData.videoId)
+  formData.append("videoId", videoData.videoId);
   formData.append("title", videoData.title);
   formData.append("description", videoData.description);
   formData.append("fileUrl", videoData.file);
@@ -90,16 +87,12 @@ export const updateVideo = (
         throw new Error(response.statusText);
       }
     })
-    .then((data) => {
-      console.log(data); // Succès de la mise à jour de la vidéo
-    })
     .catch((error) => {
       console.error(error.message); // Gestion de l'erreur de la requête
     });
 };
 
 export const blockVideo = (videoId) => {
-  console.log(videoId);
   return fetch(`${urlApi}video/${videoId}/block`, {
     method: "PUT",
     headers: {
@@ -114,9 +107,7 @@ export const blockVideo = (videoId) => {
         throw new Error(response.statusText);
       }
     })
-    .then((data) => {
-      console.log(data); // Succès de blocage de la vidéo
-    })
+
     .catch((error) => {
       console.error(error.message); // Gestion de l'erreur de la requête
     });
@@ -137,9 +128,7 @@ export const hideVideo = (videoId) => {
         throw new Error(response.statusText);
       }
     })
-    .then((data) => {
-      console.log(data); // Succès de la masquage de la vidéo
-    })
+
     .catch((error) => {
       console.error(error.message); // Gestion de l'erreur de la requête
     });
@@ -148,7 +137,6 @@ export const hideVideo = (videoId) => {
 export const getVideoById = (videoId) => {
   return fetch(`${urlApi}video/${videoId}`)
     .then((response) => {
-      console.log(response);
       if (response.ok) {
         return response.json();
       } else {
@@ -156,7 +144,6 @@ export const getVideoById = (videoId) => {
       }
     })
     .then((data) => {
-      console.log(data); // Données de la vidéo récupérées avec succès
       return data;
     })
     .catch((error) => {
@@ -215,9 +202,7 @@ export const blockAndUnhideVideo = (videoId) => {
         throw new Error(response.statusText);
       }
     })
-    .then((data) => {
-      console.log(data); // Succès de la mise à jour du statut de la vidéo
-    })
+
     .catch((error) => {
       console.error(error.message); // Gestion de l'erreur de la requête
     });
@@ -238,9 +223,7 @@ export const deleteVideo = (videoId) => {
         throw new Error(response.statusText);
       }
     })
-    .then((data) => {
-      console.log(data); // Succès de la suppression de la vidéo
-    })
+
     .catch((error) => {
       console.error(error.message); // Gestion de l'erreur de la requête
     });
