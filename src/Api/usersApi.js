@@ -2,8 +2,7 @@ import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
 
 const urlApi = "http://localhost:3000/";
-const jwt = localStorage.getItem("jwt") // Récupérer le token stocké
-
+const jwt = localStorage.getItem("jwt"); // Récupérer le token stocké
 
 const setJwtCookie = (token) => {
   // Définir la durée de validité du cookie à 1 heure
@@ -74,7 +73,6 @@ export const logout = async () => {
     throw error;
   }
 };
-
 
 export const getMe = async () => {
   try {
@@ -149,12 +147,14 @@ export const deactivateAccount = async (userId) => {
     const response = await fetch(urlApi + `user/${userId}/deactivate`, {
       method: "PUT",
       credentials: "include", // Inclure les cookies dans la requête
-      mode: 'cors'
+      mode: "cors",
     });
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(`Failed to deactivate user account: ${errorData.message}`);
+      throw new Error(
+        `Failed to deactivate user account: ${errorData.message}`
+      );
     }
 
     const data = await response.json();
@@ -162,19 +162,17 @@ export const deactivateAccount = async (userId) => {
   } catch (error) {
     throw error;
   }
-}
+};
 
 export const deleteAccount = async (userId) => {
-  const tokenFront = jwt;
- 
+
   try {
     const response = await fetch(urlApi + `user/${userId}/delete`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
-      credentials:'include',
-      body: JSON.stringify({ tokenFront }),
+      credentials: "include",
     });
 
     if (!response.ok) {
@@ -188,6 +186,12 @@ export const deleteAccount = async (userId) => {
   }
 };
 
-
-
-
+export const getUserById = async (userId) => {
+  try {
+    const response = await fetch(`${urlApi}user/${userId}`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error("Failed to fetch user data");
+  }
+};

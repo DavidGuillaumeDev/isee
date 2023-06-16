@@ -39,7 +39,8 @@ const AuthModal = ({ isOpen, onRequestClose }) => {
   //     }
   // };
 
-  const handleLogin = async (email, password) => {
+  const handleLogin = async () => {
+    
     login(email, password);
     navigate("/", { replace: true });
     setTimeout(() => {
@@ -53,8 +54,33 @@ const AuthModal = ({ isOpen, onRequestClose }) => {
       
     console.log(username, email, password, "INSCRIS");
   };
+
+  const handleSubmit = () => {
+    if (isRegistering) {
+      if (password !== confirmPassword) {
+        setPasswordError(true);
+        setErrorMessage("Les mots de passe ne correspondent pas.");
+        setShowError(true);
+        setTimeout(() => {
+          setShowError(false);
+        }, 3000);
+      } else {
+        setPasswordError(false);
+        handleRegister(username, email, password, profilPicture);
+      }
+    } else {
+      handleLogin(email, password);
+    }
+  };
   
 
+  const handleKeyPress = (event) => {
+    console.log(event)
+    if (event.key === "Enter") {
+      event.preventDefault();
+      handleSubmit();
+    }
+  };
   useEffect(() => {
     if (!isOpen) {
       setEmail("");
@@ -118,6 +144,7 @@ const AuthModal = ({ isOpen, onRequestClose }) => {
             type="password"
             placeholder="Mot de passe"
             value={password}
+            onKeyDown={handleKeyPress}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
@@ -145,11 +172,8 @@ const AuthModal = ({ isOpen, onRequestClose }) => {
             className="border-2 border-black hover:border-4 hover:bg-white-100 text-black font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full transition-all duration-200"
             disabled={isRegistering && password !== confirmPassword}
             type="submit"
-            onClick={() => {
-              isRegistering
-                ? handleRegister(username, email, password,profilPicture)
-                : handleLogin(email, password);
-            }}
+            onClick={handleSubmit}
+
           >
             {isRegistering ? "S'inscrire" : "Se connecter"}
           </button>

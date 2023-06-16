@@ -16,8 +16,6 @@ const CardSearchPage = ({
   const [pictureSrc, setPictureSrc] = useState(null);
   const [imageSrc, setImageSrc] = useState(null);
   useEffect(() => {
-
-
     const loadPictureImage = async () => {
       try {
         const response = await fetch(
@@ -53,6 +51,11 @@ const CardSearchPage = ({
     loadPictureImage();
     loadImage();
   }, [userImage, thumbnail]);
+
+  const formatDate = (date) => {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(date).toLocaleDateString(undefined, options);
+  };
   return (
     <Link to={`/video/${videoId}`} className="block underline-none">
       <div className="bg-white rounded-lg overflow-hidden shadow-md p-4 mb-6 flex max-w-4xl">
@@ -76,7 +79,7 @@ const CardSearchPage = ({
             </div>
             <div className="flex justify-between items-center mb-2">
               <p>{views} vues</p>
-              <p>{date}</p>
+              <p>{formatDate(date)}</p>{" "}
             </div>
             <div className="text-description overflow-hidden whitespace-normal overflow-ellipsis">
               {description}

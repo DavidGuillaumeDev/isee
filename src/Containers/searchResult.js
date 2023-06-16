@@ -68,7 +68,7 @@ const SearchResult = () => {
                   title={video.title}
                   userName={video.user.name}
                   views={video.views}
-                  date={video.date}
+                  date={video.createdAt}
                   userImage={video.user.profilePicture}
                   description={video.description}
                 />

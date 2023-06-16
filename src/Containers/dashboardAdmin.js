@@ -1,29 +1,41 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CardDashboard from '../Components/DashboardAdmin/cardDashboard';
 import ButtonDashboard from '../Components/DashboardAdmin/buttonDashboard';
 import VideoTable from '../Components/DashboardAdmin/videoTable';
 import UserTable from '../Components/DashboardAdmin/userTable';
 import HomeDashboard from '../Components/DashboardAdmin/homeDashboard';
-
+import { getDashboard } from '../Api/adminApi';
 const DashboardAdmin = () => {
   const [selectedComponent, setSelectedComponent] = useState('home');
-  
-  const users = 2500;
-  const videos = 1050;
-  const totalSize = 250;
+  const [data, setData] = useState([])
 
+ useEffect(() => {
+  getDashboard()
+    .then((getData) => {
+      setData(getData); // Met à jour les vidéos avec les données récupérées de l'API
+      console.log(getData)
+    
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}, []);
+  
   const renderSelectedComponent = () => {
     switch(selectedComponent) {
       case 'home':
         return <HomeDashboard />;
       case 'videos':
-        return <VideoTable />;
+        return <VideoTable videos={data.videos}/>;
       case 'users':
-        return <UserTable />;
+        return <UserTable users={data.users} />;
       default:
         return <HomeDashboard />;
     }
   };
+
+  const totalSizeGB = (data.totalsize / 1000000000).toFixed(2); // Convertir en Go avec 2 décimales
+const totalSizeShort = totalSizeGB.substring(0,7); 
 
   return (
     <div className="dashboard-admin p-8 mt-16">
@@ -31,9 +43,9 @@ const DashboardAdmin = () => {
         Tableau de bord administrateur
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <CardDashboard text="Utilisateurs enregistrés" stat={users} />
-        <CardDashboard text="Vidéos en ligne" stat={videos} />
-        <CardDashboard text="Taille totale des vidéos" stat={`${totalSize} Go`} />
+        <CardDashboard text="Utilisateurs enregistrés" stat={data.totalUsers} />
+        <CardDashboard text="Vidéos en ligne" stat={data.totalVideos} />
+        <CardDashboard text="Taille totale des vidéos" stat={`${totalSizeShort} Go`} />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">

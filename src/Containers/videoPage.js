@@ -4,7 +4,7 @@ import LiveChat from "../Components/VideoPage/liveChat";
 import CardVideoPage from "../Components/VideoPage/cardVideoPage";
 import Comments from "../Components/VideoPage/comments";
 import "../Styles/index.css";
-import ProfilPicture from "../Images/profilePictureTest.jpg";
+import DefaultPicture from "../Images/DefaultUser.png";
 import { getVideoById, fetchSuggUserVideos, incrementViews } from "../Api/videoApi";
 import { useParams  } from "react-router-dom";
 
@@ -40,6 +40,7 @@ const VideoPage = () => {
   
   
   useEffect(() => {
+ 
     const loadVideo = async () => {
       try {
         const response = await fetch(`http://localhost:3000/videos/${videoData.fileUrl}`);
@@ -75,7 +76,6 @@ const VideoPage = () => {
     return <div>Loading...</div>;
   }
 
-
   return loading ? (
     <div>Loading...</div>
   ) : (
@@ -88,14 +88,15 @@ const VideoPage = () => {
                 <VideoPlayer
                   src={videoUrl}
                   title={videoData.title}
-                  userImage={ProfilPicture}
-                  userName={videoData.userName}
+                  userImage={videoData.user.profilePicture}
+                  userName={videoData.user.name}
                   views={videoData.views}
                   description={videoData.description}
+                  userId={videoData.user._id}
                 />
               </div>
               <div>
-                <Comments comments={commentsData} />
+                <Comments comments={commentsData} videoId={videoData._id} />
               </div>
             </div>
           </div>
@@ -115,6 +116,8 @@ const VideoPage = () => {
                 views={video.views}
                 date={video.createdAt}
                 userImage={video.user.profilePicture}
+                userId={videoData.user._id}
+
               />
             ))}
           </div>

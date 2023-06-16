@@ -25,14 +25,15 @@ const Home = () => {
     
       {videos.map((video) => (
         <Card
+        userId={video.user._id}
           key={video._id}
           videoId={video._id}
           thumbnail={video.thumbnailUrl}
           userImage={video.user.profilePicture}
           title={video.title}
-          userName={video.userName}
+          userName={video.user.name}
           views={video.views}
-          date={video.date}
+          date={video.createdAt}
         />
       ))}
     </div>

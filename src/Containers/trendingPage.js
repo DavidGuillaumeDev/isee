@@ -1,76 +1,28 @@
-import React from 'react';
+import React, { useState,useEffect } from 'react';
 import "../Styles/index.css";
-import Miniature from '../Images/miniatureTest.jpg';
-import ProfilPicture from '../Images/profilePictureTest.jpg';
 import CardTrendingPage from '../Components/TrendingPage/cardTrendingPage';
 import { FiTrendingUp } from "react-icons/fi";
+import { getTopVideos } from '../Api/videoApi';
 
 
 const TrendingPage = () => {
   document.title = "Tendances";
+  const [videosData,setVideoData] = useState([])
+  useEffect(() => {
+    const fetchTopVideos = async () => {
+      try {
+        const data = await getTopVideos();
+        setVideoData(data);
+      } catch (error) {
+        console.error('Failed to fetch top videos:', error);
+      }
+    };
 
-  const trendingVideos = [
-    {
-      id: 1,
-      userImage: ProfilPicture,
-      thumbnail: Miniature,
-      title: "Parc de la colline aux oiseaux",
-      userName: "Ville de Caen",
-      views: "1 500 000",
-      date: "15 mars 2023",
-      description: "On espère que ce making-of vous plaira. Il retrace un périple sans nom et vous permet de découvrir les coulisses inédites qui se sont produites lors du pièges. Merci à tous ceux qui ont dérushé des centaines d’heures d’images filmées sur 3 ans, et un immense merci à Dav Tuil et François Lefebvre qui ont passé des nuits blanches entières pour venir à bout du montage de ce projet titanesque."
-    },
-    {
-      id: 2,
-      userImage: ProfilPicture,
-      thumbnail: Miniature,
-      title: "Parc de la colline aux oiseaux 1 ",
-      userName: "Ville de Caen",
-      views: "1 500 000",
-      date: "15 mars 2023",
-      description: "On espère que ce making-of vous plaira. Il retrace un périple sans nom et vous permet de découvrir les coulisses inédites qui se sont produites lors du pièges. Merci à tous ceux qui ont dérushé des centaines d’heures d’images filmées sur 3 ans, et un immense merci à Dav Tuil et François Lefebvre qui ont passé des nuits blanches entières pour venir à bout du montage de ce projet titanesque."
-    },
-    {
-      id: 3,
-      userImage: ProfilPicture,
-      thumbnail: Miniature,
-      title: "Parc de la colline aux oiseaux 2",
-      userName: "Ville de Caen",
-      views: "1 500 000",
-      date: "15 mars 2023",
-      description: "On espère que ce making-of vous plaira. Il retrace un périple sans nom et vous permet de découvrir les coulisses inédites qui se sont produites lors du pièges. Merci à tous ceux qui ont dérushé des centaines d’heures d’images filmées sur 3 ans, et un immense merci à Dav Tuil et François Lefebvre qui ont passé des nuits blanches entières pour venir à bout du montage de ce projet titanesque."
-    },
-    {
-      id: 4,
-      userImage: ProfilPicture,
-      thumbnail: Miniature,
-      title: "Parc de la colline aux oiseaux 3",
-      userName: "Ville de Caen",
-      views: "1 500 000",
-      date: "15 mars 2023",
-      description: "On espère que ce making-of vous plaira. Il retrace un périple sans nom et vous permet de découvrir les coulisses inédites qui se sont produites lors du pièges. Merci à tous ceux qui ont dérushé des centaines d’heures d’images filmées sur 3 ans, et un immense merci à Dav Tuil et François Lefebvre qui ont passé des nuits blanches entières pour venir à bout du montage de ce projet titanesque."
-    },
-    {
-      id: 5,
-      userImage: ProfilPicture,
-      thumbnail: Miniature,
-      title: "Parc de la colline aux oiseaux 4",
-      userName: "Ville de Caen",
-      views: "1 500 000",
-      date: "15 mars 2023",
-      description: "On espère que ce making-of vous plaira. Il retrace un périple sans nom et vous permet de découvrir les coulisses inédites qui se sont produites lors du pièges. Merci à tous ceux qui ont dérushé des centaines d’heures d’images filmées sur 3 ans, et un immense merci à Dav Tuil et François Lefebvre qui ont passé des nuits blanches entières pour venir à bout du montage de ce projet titanesque."
-    },
-    {
-      id: 6,
-      userImage: ProfilPicture,
-      thumbnail: Miniature,
-      title: "Parc de la colline aux oiseaux 5",
-      userName: "Ville de Caen",
-      views: "1 500 000",
-      date: "15 mars 2023",
-      description: "On espère que ce making-of vous plaira. Il retrace un périple sans nom et vous permet de découvrir les coulisses inédites qui se sont produites lors du pièges. Merci à tous ceux qui ont dérushé des centaines d’heures d’images filmées sur 3 ans, et un immense merci à Dav Tuil et François Lefebvre qui ont passé des nuits blanches entières pour venir à bout du montage de ce projet titanesque."
-    },
-  ];
+    fetchTopVideos();
+  }, []);
+
+  console.log(videosData)
+
 
   return (
     <div className="trending-page-container mt-24 mx-2 ">
@@ -82,15 +34,16 @@ const TrendingPage = () => {
           </div>
         </h1>
         <div className="mt-6 grid grid-cols-1 gap-6">
-          {trendingVideos.map((video) => (
+          {videosData.map((video) => (
             <CardTrendingPage
-              key={video.id}
-              thumbnail={video.thumbnail}
+              key={video._id}
+              videoId={video._id}
+              thumbnail={video.thumbnailUrl}
               title={video.title}
-              userName={video.userName}
+              userName={video.user.name}
               views={video.views}
-              date={video.date}
-              userImage={video.userImage}
+              date={video.createdAt}
+              userImage={video.user.profilePicture}
               description={video.description}
             />
           ))}

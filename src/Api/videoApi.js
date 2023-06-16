@@ -67,13 +67,21 @@ export const createVideo = async (
   }
 };
 
-export const updateVideo = (videoId, updatedData) => {
-  return fetch(urlApi + `videos/${videoId}`, {
+export const updateVideo = (
+  videoId,
+ videoData
+) => {
+  const formData = new FormData();
+  formData.append("videoId",videoData.videoId)
+  formData.append("title", videoData.title);
+  formData.append("description", videoData.description);
+  formData.append("fileUrl", videoData.file);
+  formData.append("thumbnail", videoData.thumbnailUrl);
+  formData.append("status", videoData.status);
+  return fetch(urlApi + `video/${videoId}`, {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(updatedData),
+    credentials: "include",
+    body: formData,
   })
     .then((response) => {
       if (response.ok) {
@@ -91,13 +99,13 @@ export const updateVideo = (videoId, updatedData) => {
 };
 
 export const blockVideo = (videoId) => {
-  console.log(videoId)
+  console.log(videoId);
   return fetch(`${urlApi}video/${videoId}/block`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
-    credentials:"include",
+    credentials: "include",
   })
     .then((response) => {
       if (response.ok) {
@@ -120,7 +128,7 @@ export const hideVideo = (videoId) => {
     headers: {
       "Content-Type": "application/json",
     },
-    credentials:"include"
+    credentials: "include",
   })
     .then((response) => {
       if (response.ok) {
@@ -198,7 +206,7 @@ export const blockAndUnhideVideo = (videoId) => {
     headers: {
       "Content-Type": "application/json",
     },
-    credentials:"include",
+    credentials: "include",
   })
     .then((response) => {
       if (response.ok) {
@@ -221,7 +229,7 @@ export const deleteVideo = (videoId) => {
     headers: {
       "Content-Type": "application/json",
     },
-    credentials:"include",
+    credentials: "include",
   })
     .then((response) => {
       if (response.ok) {
@@ -236,4 +244,18 @@ export const deleteVideo = (videoId) => {
     .catch((error) => {
       console.error(error.message); // Gestion de l'erreur de la requête
     });
+};
+
+export const getTopVideos = async () => {
+  try {
+    const response = await fetch(`${urlApi}video/top`);
+    if (!response.ok) {
+      throw new Error("Failed to fetch top videos");
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch top videos:", error);
+    throw error;
+  }
 };

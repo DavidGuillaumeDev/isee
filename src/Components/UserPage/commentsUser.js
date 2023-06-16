@@ -2,40 +2,37 @@ import React, { useEffect, useState } from "react";
 import Comments from "../VideoPage/comments";
 import { getVideoById } from "../../Api/videoApi";
 import { useParams  } from "react-router-dom";
+import Comment from '../VideoPage/comment';
 
 
-const CommentUser = ({ user }) => {
 
-    user = "Azazel";
 
-    const { videoId } = useParams();
-
-    const [commentsData, setCommentsData] = useState(null);
-
-    const fetchVideoData = async (videoId) => {
-        try {
-          const data = await getVideoById(videoId);
-          setCommentsData(data.comments);
-        } catch (error) {
-          console.log(error);
-        }
-      };
-      useEffect(() => {
-        fetchVideoData(videoId);
-      }, [videoId]);
+const CommentUser = ({ userData,commentsData }) => {
 
     return (
         <div className="bg-white p-6 rounded-lg shadow-md">
             <div>
                 <h1 className="text-4xl font-semibold mb-6 text-gray-800 text-center font-mono">
-                    Commentaire écrits par {user}
+                    Commentaire écrits par {userData.name}
                 </h1>
             </div>
             <div>
-                <Comments comments={commentsData} />
+            <div className="comment-list">
+        {commentsData.map((comment) => (
+        
+          <Comment
+            key={comment._id}
+            userImage={userData.profilePicture}
+            userName={userData.name}
+            date={comment.createdAt}
+            comment={comment.content}
+            videoData={comment.videoId}
+          />
+        ))}
+      </div>
             </div>
         </div>
     );
-};
+};  
 
 export default CommentUser;

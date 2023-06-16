@@ -3,12 +3,9 @@ const urlApi= "http://localhost:3000/"
 
 export const getDashboard = async () => {
     try {
-      const response = await fetch(urlApi + "dashboard", {
+      const response = await fetch(urlApi + "admin/dashboard", {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        //   Authorization: `Bearer ${token}`,
-        },
+        credentials:'include',
       });
       
       if (!response.ok) {
@@ -38,6 +35,52 @@ export const getDashboard = async () => {
     } catch (error) {
       console.error(error);
       throw new Error('Failed to check admin status');
+    }
+  };
+  
+
+  export const fetchWeeklyDashboard = async () => {
+    try {
+      const response = await fetch(urlApi+'admin/weekly',{
+        method:'GET',
+        credentials:"include",
+      });
+      const data = await response.json();
+      console.log("Weekly", data)
+
+      return data;
+    } catch (error) {
+      throw new Error('Failed to fetch weekly dashboard data');
+    }
+  };
+  
+  export const fetchMonthlyDashboard = async () => {
+    try {
+      const response = await fetch(urlApi+'admin/monthly',{
+        method:'GET',
+        credentials:"include",
+      });
+      const data = await response.json();
+      console.log("Monthly", data)
+
+      return data;
+    } catch (error) {
+      throw new Error('Failed to fetch monthly dashboard data');
+    }
+  };
+  
+  export const fetchDailyDashboard = async () => {
+    try {
+      const response = await fetch(urlApi+'admin/daily',{
+        method:'GET',
+        credentials:"include",
+      });
+
+      const data = await response.json();
+      console.log("Daily",data)
+      return data;
+    } catch (error) {
+      throw new Error('Failed to fetch daily dashboard data');
     }
   };
   

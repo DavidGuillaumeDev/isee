@@ -1,13 +1,34 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState,useEffect } from 'react';
 import { FiDownload, FiMaximize2, FiPlay, FiPause } from 'react-icons/fi';
-import "../../Styles/index.css";
+import DefaultPicture from '../../Images/DefaultUser.png'
 
-const VideoPlayer = ({ src, title, userImage, userName, views, description }) => {
+import "../../Styles/index.css";
+import { Link } from 'react-router-dom';
+
+const VideoPlayer = ({ src, title, userImage, userName, views, description,userId }) => {
   const videoRef = useRef();
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [volume, setVolume] = useState(1);
   
+  const [pictureSrc, setPictureSrc] = useState(null);
+
+  useEffect(() => {
+    const loadPictureImage = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/images/pp/${userImage}`);
+        if (!response.ok) { // if HTTP-status is 404-599
+          throw new Error(response.statusText);
+        }
+        setPictureSrc(`http://localhost:3000/images/pp/${userImage}`);
+      } catch (error) {
+        console.error("No image found, setting to default");
+        setPictureSrc(DefaultPicture);
+      }
+    };
+
+    loadPictureImage();
+  }, [userImage]);
 
   const handlePlayPause = () => {
     if (isPlaying) {
@@ -86,8 +107,18 @@ const VideoPlayer = ({ src, title, userImage, userName, views, description }) =>
         <div className="video-info flex flex-col items-start bg-gray-200 p-4">
           <h2 className="video-title text-xl font-bold mb-2">{title}</h2>
           <div className="user-and-views flex items-center mb-2">
-            <img src={userImage} alt={userName} className="user-image h-8 w-8 rounded-full mr-2" />
-            <span className="user-name font-medium mr-4">{userName}</span>
+          <Link to={`/user/${userId}`}>
+            <div className="flex items-center flex-col justify-center">
+              <img
+                className="w-10 h-10 rounded-full"
+                src={pictureSrc}
+                alt={userName}
+              />
+              <div className="text-center">
+                <p className="">{userName}</p>
+              </div>
+            </div>
+          </Link>
             <span>{views} vues</span>
           </div>
           <p className="video-description text-sm">{description}</p>
