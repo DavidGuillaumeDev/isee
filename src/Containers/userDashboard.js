@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 import CardDashboard from "../Components/DashboardAdmin/cardDashboard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -46,7 +45,6 @@ const UserDashboard = () => {
             setLastVideoViews(lastVideo.views);
             setLastVideoComments(lastVideo.comments.length);
             setLastVideoId(lastVideo._id);
-            console.log(lastVideo.comments.length)
           }
         })
         .catch((error) => {
@@ -161,11 +159,8 @@ const UserDashboard = () => {
               handleUnblockAndUnhide(video._id);
             } else if (action.label === "Supprimer") {
               handleDeleteVideo(video._id);
-            }
-            else if(action.label==="Détails"){
-            
+            } else if (action.label === "Détails") {
               navigate(`/video-details/${video._id}`);
-
             }
           }}
         >
