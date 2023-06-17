@@ -26,7 +26,8 @@ const VideoDetails = () => {
       const updatedVideoData = {
         title: title !== "" ? title : videoData.title,
         description: description !== "" ? description : videoData.description,
-        thumbnailUrl: thumbnailUrl !== undefined ? thumbnailUrl : videoData.thumbnailUrl,
+        thumbnailUrl:
+          thumbnailUrl !== undefined ? thumbnailUrl : videoData.thumbnailUrl,
         status,
       };
       updateVideo(videoData._id, updatedVideoData);

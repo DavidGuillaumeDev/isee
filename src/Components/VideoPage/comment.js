@@ -34,12 +34,15 @@ const Comment = ({
         setPictureSrc(`http://localhost:3000/images/pp/${userImage}`);
       } catch (error) {
         console.error("No image found, setting to default");
-        setPictureSrc(DefaultPicture);
+        setPictureSrc(`http://localhost:3000/images/pp/DefaultUser.png`);
       }
     };
 
     loadPictureImage();
   }, [userImage]);
+  
+ 
+  
 
   useEffect(() => {
     const fetchVideoInfo = async () => {
@@ -145,7 +148,7 @@ const Comment = ({
                     <Link to={`/user/${reply.user._id}`}>
                       <img
                         className="w-8 h-8 rounded-full mr-2"
-                        src={replyPictureSrc}
+                        src={replyPictureSrc || DefaultPicture}
                         alt={reply.user.name}
                       />
                     </Link>

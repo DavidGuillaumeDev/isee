@@ -104,7 +104,7 @@ const Account = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
-        <label className="block mb-6 flex items-center">
+        <label className="block mb-6 items-center">
           <span className="text-gray-700 mr-4">Mode sombre</span>
           <Switch
             onChange={handleSwitchChange}

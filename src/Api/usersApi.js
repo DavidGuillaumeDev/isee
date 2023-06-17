@@ -94,6 +94,7 @@ export const getMe = async () => {
 };
 
 export const registerUser = async (name, email, password, profilPicture) => {
+
   const formData = new FormData();
 
   formData.append("name", name);
@@ -119,6 +120,7 @@ export const registerUser = async (name, email, password, profilPicture) => {
 };
 
 export const updateProfile = async (userId, name, password, profilePicture) => {
+  console.log(profilePicture)
   const formData = new FormData();
 
   formData.append("name", name);
@@ -129,6 +131,7 @@ export const updateProfile = async (userId, name, password, profilePicture) => {
     const response = await fetch(urlApi + `user/${userId}`, {
       method: "PUT",
       body: formData,
+      credentials:'include'
     });
 
     if (!response.ok) {

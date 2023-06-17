@@ -29,7 +29,7 @@ const Card = ({
         setPictureSrc(`http://localhost:3000/images/pp/${userImage}`);
       } catch (error) {
         console.error("No image found, setting to default");
-        setPictureSrc(DefaultPicture);
+        setPictureSrc(`http://localhost:3000/images/pp/DefaultUser.png`);
       }
     };
     const loadImage = async () => {
