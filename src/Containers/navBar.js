@@ -74,7 +74,7 @@ const NavBar = () => {
     }
   };
   const loadPictureImage = async () => {
-    try {
+      try {
       const response = await fetch(
         `http://localhost:3000/images/pp/${userData.profilePicture}`
       );
@@ -109,8 +109,8 @@ const NavBar = () => {
   };
 
   useEffect(() => {
-    isAdmin();
     fetchAccountData();
+    isAdmin();
     loadPictureImage();
   }, []);
 

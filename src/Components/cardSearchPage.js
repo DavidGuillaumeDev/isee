@@ -43,7 +43,7 @@ const CardSearchPage = ({
         setImageSrc(`http://localhost:3000/images/thumbnail/${thumbnail}`);
       } catch (error) {
         console.error("No image found, setting to default");
-        setImageSrc(DefaultImage);
+        setPictureSrc(`http://localhost:3000/images/pp/DefaultUser.png`);
       }
     };
 
