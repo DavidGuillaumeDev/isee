@@ -101,7 +101,7 @@ const VideoPage = () => {
         </div>
         <div className="live-chat-container mt-6 md:mt-0 md:ml-6 ">
           <div className="mb-6 mt-6">
-            <LiveChat />
+            <LiveChat videoId={videoId} />
           </div>
           <div className="mt-6 grid grid-cols-1 gap-6">
             {suggData.map((video) => (

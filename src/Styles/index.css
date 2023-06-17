@@ -444,3 +444,8 @@ code {
   -webkit-line-clamp: 3; 
   -webkit-box-orient: vertical;
 }
+
+.message-list {
+  max-height: calc(100% - 40px); /* Ajustez cette valeur en fonction de vos besoins */
+  overflow-y: auto;
+}
