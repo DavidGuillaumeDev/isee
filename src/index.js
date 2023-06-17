@@ -14,6 +14,7 @@ import UserDashboard from "./Containers/userDashboard";
 import VideoDetails from "./Containers/videoDétails";
 import AddVideo from "./Containers/addVideo";
 import UserPage from "./Containers/userPage";
+import UpdateUser from "./Containers/updateUser";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -30,6 +31,7 @@ ReactDOM.render(
         <Route path="/dashboard-user" element={<UserDashboard />} />
         <Route path="/video-details/:videoId" element={<VideoDetails />} />
         <Route path="/add-video" element={<AddVideo />} />
+        <Route path="/upd-user/:userId" element={<UpdateUser />} />
       </Routes>
     </Router>
   </React.StrictMode>,
