@@ -11,6 +11,8 @@ const AddVideo = () => {
   const [status, setStatus] = useState("private");
   const userId = GetUserIdButton();
   const navigate = useNavigate();
+  document.title = "Ajout Vidéo";
+
 
   const maxFileSize = 100;
   const handleSubmit = async () => {

@@ -3,7 +3,7 @@ import Card from "../Components/card";
 import { fetchAllVideos } from "../Api/videoApi";
 
 const Home = () => {
-  document.title = "Home";
+  document.title = "Accueil";
   const [videos, setVideos] = useState([]);
 
   useEffect(() => {

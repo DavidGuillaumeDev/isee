@@ -45,6 +45,8 @@ const UserDashboard = () => {
             setLastVideoViews(lastVideo.views);
             setLastVideoComments(lastVideo.comments.length);
             setLastVideoId(lastVideo._id);
+            document.title = "Dashboard Utilisateur";
+
           }
         })
         .catch((error) => {
