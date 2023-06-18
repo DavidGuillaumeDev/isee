@@ -32,17 +32,21 @@ const VideoTable = ({ videos }) => {
   };
 
   const handleDeleteVideo = (videoId) => {
-    deleteVideo(videoId)
-      .then(() => {
-        setVideosData((prevVideosData) =>
-          prevVideosData.filter((video) => video._id !== videoId)
-        );
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    const confirmDelete = window.confirm("Êtes-vous sûr de vouloir supprimer cette vidéo ?");
+  
+    if (confirmDelete) {
+      deleteVideo(videoId)
+        .then(() => {
+          setVideosData((prevVideosData) =>
+            prevVideosData.filter((video) => video._id !== videoId)
+          );
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   };
-
+  
   const handleUnblockAndUnhide = (videoId) => {
     blockAndUnhideVideo(videoId)
       .then(() => {

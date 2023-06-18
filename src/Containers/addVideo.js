@@ -12,14 +12,34 @@ const AddVideo = () => {
   const userId = GetUserIdButton();
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
-    createVideo(userId, title, description, videoFile, thumbnailFile, status);
-
-    setTimeout(() => {
-      navigate("/", { replace: true });
-      window.location.reload();
-    }, 1000); // Délai de 1 seconde
+  const maxFileSize = 100;
+  const handleSubmit = async () => {
+    const fileSize = videoFile.size / (1024 * 1024);
+  
+    try {
+      if (fileSize > maxFileSize) {
+        throw new Error("La taille du fichier vidéo dépasse la limite autorisée.");
+      } else {
+        await createVideo(
+          userId,
+          title,
+          description,
+          videoFile,
+          thumbnailFile,
+          status
+        );
+  
+        setTimeout(() => {
+          navigate("/", { replace: true });
+          window.location.reload();
+        }, 1000); // Délai de 1 seconde
+      }
+    } catch (error) {
+      console.error(error);
+      window.alert(error);
+    }
   };
+  
 
   return (
     <div className="font-mono min-h-screen bg-gray-200 p-8 mt-20">

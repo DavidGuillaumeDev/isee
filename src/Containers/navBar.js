@@ -223,12 +223,6 @@ const NavBar = () => {
           </div>
         )}
         <div className="absolute bottom-0 left-0 mb-6 p-6 w-full">
-          <div className="flex items-center mb-6">
-            <FiSettings className="text-black text-xl mr-3" />
-            <Link to="/parametres" className="text-black text-xl">
-              Paramètres
-            </Link>
-          </div>
           <div className="flex items-center">
             <FiHelpCircle className="text-black text-xl mr-3" />
             <Link to="/aide-contact" className="text-black text-xl">

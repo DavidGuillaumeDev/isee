@@ -1,8 +1,8 @@
 import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
+import DOMPurify from "dompurify";
 
 const urlApi = "http://localhost:3000/";
-const jwt = localStorage.getItem("jwt"); // Récupérer le token stocké
 
 const setJwtCookie = (token) => {
   // Définir la durée de validité du cookie à 1 heure
@@ -20,6 +20,7 @@ const setJwtCookie = (token) => {
   });
 };
 
+
 export const GetUserIdButton = () => {
   const token = Cookies.get("jwt"); // Récupère le token depuis le cookie
   if (token) {
@@ -30,27 +31,36 @@ export const GetUserIdButton = () => {
 };
 
 export const login = async (email, password) => {
+  // Nettoyer les valeurs des champs email et password
+  const sanitizedEmail = DOMPurify.sanitize(email);
+  const sanitizedPassword = DOMPurify.sanitize(password);
   try {
     const response = await fetch(urlApi + "user/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({
+        email: sanitizedEmail,
+        password: sanitizedPassword,
+      }),
     });
 
     if (response.ok) {
       const data = await response.json();
       setJwtCookie(data.token); // Appel de la fonction pour définir le cookie
       return data;
+    } else if (response.status === 401) {
+      throw new Error("Invalid email or password");
     } else {
-      throw new Error("Authentication failed");
+      throw new Error("Failed to authenticate");
     }
   } catch (error) {
     console.error(error);
     throw error;
   }
 };
+
 
 export const logout = async () => {
   try {
@@ -94,12 +104,15 @@ export const getMe = async () => {
 };
 
 export const registerUser = async (name, email, password, profilPicture) => {
-
   const formData = new FormData();
 
-  formData.append("name", name);
-  formData.append("email", email);
-  formData.append("password", password);
+  const sanitizedName = DOMPurify.sanitize(name);
+  const sanitizedEmail = DOMPurify.sanitize(email);
+  const sanitizedPassword = DOMPurify.sanitize(password);
+
+  formData.append("name", sanitizedName);
+  formData.append("email", sanitizedEmail);
+  formData.append("password", sanitizedPassword);
   formData.append("profilPicture", profilPicture);
 
   try {
@@ -109,7 +122,9 @@ export const registerUser = async (name, email, password, profilPicture) => {
     });
 
     if (!response.ok) {
-      throw new Error("Error registering user");
+      const errorData = await response.json();
+      const errorMessage = errorData.message;
+      throw new Error(errorMessage);
     }
 
     const data = await response.json();
@@ -119,19 +134,23 @@ export const registerUser = async (name, email, password, profilPicture) => {
   }
 };
 
+
 export const updateProfile = async (userId, name, password, profilePicture) => {
-  console.log(profilePicture)
   const formData = new FormData();
 
-  formData.append("name", name);
-  formData.append("password", password);
+  // Nettoyer les valeurs des champs name et password
+  const sanitizedName = DOMPurify.sanitize(name);
+  const sanitizedPassword = DOMPurify.sanitize(password);
+
+  formData.append("name", sanitizedName);
+  formData.append("password", sanitizedPassword);
   formData.append("profilPicture", profilePicture);
 
   try {
     const response = await fetch(urlApi + `user/${userId}`, {
       method: "PUT",
       body: formData,
-      credentials:'include'
+      credentials: "include",
     });
 
     if (!response.ok) {

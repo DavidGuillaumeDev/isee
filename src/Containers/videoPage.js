@@ -14,12 +14,17 @@ import { useParams } from "react-router-dom";
 const VideoPage = () => {
   const { videoId } = useParams();
 
-  document.title = "VideoPage";
   const [videoData, setVideoData] = useState(null);
   const [commentsData, setCommentsData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [videoUrl, setVideoUrl] = useState();
   const [suggData, setSuggData] = useState([]);
+  const [reloadComments, setReloadComments] = useState(false);
+
+  const handleReloadComments = () => {
+    setReloadComments((prevReload) => !prevReload);
+  };
+  
 
   const fetchVideoData = async (videoId) => {
     try {
@@ -33,6 +38,7 @@ const VideoPage = () => {
   useEffect(() => {
     incrementViews(videoId);
     fetchVideoData(videoId);
+    setReloadComments(false); // Réinitialise la valeur de reloadComments
   }, [videoId]);
 
   useEffect(() => {
@@ -51,6 +57,8 @@ const VideoPage = () => {
         }
         setVideoUrl(`http://localhost:3000/videos/${videoData.fileUrl}`);
         setLoading(false);
+        document.title = `${videoData.title}`;
+
       } catch (error) {
         console.error(error);
         setVideoUrl(null);
@@ -94,7 +102,8 @@ const VideoPage = () => {
                 />
               </div>
               <div>
-                <Comments comments={commentsData} videoId={videoData._id} />
+              <Comments videoId={videoData._id} handleReloadComments={handleReloadComments} />
+
               </div>
             </div>
           </div>

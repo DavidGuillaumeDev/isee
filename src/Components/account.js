@@ -42,20 +42,33 @@ const Account = () => {
   }, []);
 
   const desactivateAccount = () => {
-    deactivateAccount(userId);
-    navigate("/", { replace: true });
-    window.location.reload();
-  };
-
-  const deleteUserAccount = async (userId) => {
-    try {
-      await deleteAccount(userId);
-      navigate("/", { replace: true });
-      window.location.reload();
-    } catch (error) {
-      console.error(error);
+    const confirmDesactivate = window.confirm("Êtes-vous sûr de vouloir désactiver votre compte ?");
+  
+    if (confirmDesactivate) {
+      try {
+        deactivateAccount(userId);
+        navigate("/", { replace: true });
+        window.location.reload();
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
+  
+  const deleteUserAccount = async (userId) => {
+    const confirmDelete = window.confirm("Êtes-vous sûr de vouloir supprimer votre compte ?");
+  
+    if (confirmDelete) {
+      try {
+        await deleteAccount(userId);
+        navigate("/", { replace: true });
+        window.location.reload();
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+  
   return (
     <div className=" account-container min-h-screen bg-gray-200 p-8 mt-20">
       <div className="max-w-3xl mx-auto p-8 bg-white rounded-lg shadow-md">

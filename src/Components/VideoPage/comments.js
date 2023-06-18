@@ -3,11 +3,13 @@ import { FiUser } from "react-icons/fi";
 import Comment from "./comment";
 import { createComment, getCommentsByVideoId } from "../../Api/commentsApi";
 
-const Comments = ({ videoId }) => {
+const Comments = ({ videoId,handleReloadComments  }) => {
   const [parentsComments, setParentsComments] = useState([]);
   const [childComments, setChildComments] = useState([]);
   const [newComment, setNewComment] = useState("");
+  
 
+  
   const handleCommentChange = (e) => {
     setNewComment(e.target.value);
   };
@@ -17,10 +19,7 @@ const Comments = ({ videoId }) => {
       try {
         await createComment(videoId, newComment);
         setNewComment("");
-
-        setTimeout(() => {
-          fetchComments();
-        }, 5000);
+        handleReloadComments(); // Appel du callback pour recharger les commentaires
       } catch (error) {
         console.error("Failed to create comment:", error);
       }
@@ -42,10 +41,10 @@ const Comments = ({ videoId }) => {
   };
   useEffect(() => {
     fetchComments();
-  }, [videoId]);
+  }, [videoId,handleReloadComments]);
 
   return (
-    <div className="comments">
+    <div className="comments" key={handleReloadComments}>
       <div className="flex items-center mb-4">
         <FiUser className="text-xl mr-4" />
         <input
@@ -68,6 +67,8 @@ const Comments = ({ videoId }) => {
             userId={comment.user._id}
             commentId={comment._id}
             childComments={childComments}
+            handleReloadComments ={handleReloadComments}
+
           />
         ))}
       </div>

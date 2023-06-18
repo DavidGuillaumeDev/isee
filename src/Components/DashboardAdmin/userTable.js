@@ -2,19 +2,27 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserEdit, faUserMinus } from "@fortawesome/free-solid-svg-icons";
 import { deleteAccount } from "../../Api/usersApi";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const UserTable = ({ users }) => {
+  const navigate = useNavigate();
+
   const handleDeleteUser = (userId) => {
-    deleteAccount(userId)
-      .then(() => {
-        setUsersData((prevUsersData) =>
-          prevUsersData.filter((user) => user._id !== userId)
-        );
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    const confirmDelete = window.confirm(
+      "Êtes-vous sûr de vouloir supprimer cet utilisateur ?"
+    );
+
+    if (confirmDelete) {
+      deleteAccount(userId)
+        .then(() => {
+          setUsersData((prevUsersData) =>
+            prevUsersData.filter((user) => user._id !== userId)
+          );
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   };
 
   const generateActionButtons = (user) => {
@@ -24,14 +32,12 @@ const UserTable = ({ users }) => {
         icon: faUserEdit,
         classes:
           "mr-2 text-blue-600 hover:text-blue-900 border border-blue-600 hover:border-blue-900 rounded-md px-3 py-1 m-1 hover:bg-blue-200",
-          onClick: () => <Link to={`/upd-user/${user._id}`}></Link>,
       },
       {
         label: "Supprimer",
         icon: faUserMinus,
         classes:
           "text-red-600 hover:text-red-900 border border-red-600 hover:border-red-900 rounded-md px-3 py-1 m-1 hover:bg-red-200",
-        onClick: () => handleDeleteUser(user._id),
       },
     ];
 
@@ -39,7 +45,15 @@ const UserTable = ({ users }) => {
       <button
         className={action.classes}
         key={action.label}
-        onClick={action.onClick}
+        onClick={() => {
+          if (action.label === "Modifier") {
+            navigate(`/upd-user/${user._id}`);
+          } else if (action.label === "Public") {
+          } else if (action.label === "Supprimer") {
+            handleDeleteUser(user._id);
+          } else {
+          }
+        }}
       >
         <FontAwesomeIcon icon={action.icon} /> {action.label}
       </button>

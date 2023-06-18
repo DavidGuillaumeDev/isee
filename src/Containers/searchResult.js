@@ -62,7 +62,7 @@ const SearchResult = () => {
                 <CardSearchPage
                   key={video._id}
                   videoId={video._id}
-                  thumbnail={video.thumbnail}
+                  thumbnail={video.thumbnailUrl}
                   title={video.title}
                   userName={video.user.name}
                   views={video.views}
