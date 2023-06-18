@@ -64,6 +64,9 @@ const UserDashboard = () => {
   };
 
   const handleDeleteVideo = (videoId) => {
+    const confirmDelete = window.confirm("Êtes-vous sûr de vouloir supprimer cette vidéo ?");
+  
+    if (confirmDelete) {
     deleteVideo(videoId)
       .then(() => {
         fetchUserVideosData();
@@ -71,6 +74,7 @@ const UserDashboard = () => {
       .catch((error) => {
         console.error(error);
       });
+    }
   };
 
   const handleUnblockAndUnhide = (videoId) => {
