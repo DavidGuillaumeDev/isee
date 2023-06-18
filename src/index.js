@@ -15,6 +15,7 @@ import VideoDetails from "./Containers/videoDétails";
 import AddVideo from "./Containers/addVideo";
 import UserPage from "./Containers/userPage";
 import UpdateUser from "./Containers/updateUser";
+import AideContact from "./Containers/aideContact";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -32,6 +33,7 @@ ReactDOM.render(
         <Route path="/video-details/:videoId" element={<VideoDetails />} />
         <Route path="/add-video" element={<AddVideo />} />
         <Route path="/upd-user/:userId" element={<UpdateUser />} />
+        <Route path="/aide-contact" element={<AideContact />} />
       </Routes>
     </Router>
   </React.StrictMode>,
