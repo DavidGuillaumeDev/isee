@@ -16,6 +16,7 @@ const Account = () => {
   const [profilPicture, setProfilPicture] = useState("");
   const userId = GetUserIdButton();
   const navigate = useNavigate();
+  document.title="Profil"
 
   const handleSwitchChange = (checked) => {
     setUserData({ ...userData, darkMode: checked });

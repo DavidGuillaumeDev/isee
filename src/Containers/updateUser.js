@@ -40,6 +40,8 @@ const UpdateUser = () => {
     try {
       const user = await getUserById(userId);
       setUserData(user.user);
+      document.title = user.user.name;
+
     } catch (error) {
       console.error(error);
     }

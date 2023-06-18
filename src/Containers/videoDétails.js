@@ -40,6 +40,8 @@ const VideoDetails = () => {
       const data = await getVideoById(videoId);
       setCommentsData(data.comments);
       setVideoData(data);
+      document.title = data.title;
+
     } catch (error) {
       console.log(error);
     }

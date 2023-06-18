@@ -18,6 +18,8 @@ const DashboardAdmin = () => {
         console.error(error);
       });
   }, []);
+  document.title = "Dasboard administrateur";
+
 
   const renderSelectedComponent = () => {
     switch (selectedComponent) {

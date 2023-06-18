@@ -1,6 +1,8 @@
 import React from 'react';
 
 const AideContact = () => {
+  document.title ="Contact";
+
   return (
     <div className="min-h-screen bg-gray-200 p-8 mt-20">
       <div className="pdf-container" style={{ height: '75vh' }}>

@@ -23,6 +23,8 @@ const UserPage = () => {
       setCommentsData(data.comments);
       setVideoData(data.videos);
       setUserData(data.user);
+      document.title = data.user.name;
+
     } catch (error) {
       console.error(error);
     } finally {
