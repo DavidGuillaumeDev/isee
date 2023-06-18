@@ -8,30 +8,38 @@ import {
   deleteAccount,
   getUserById,
 } from "../Api/usersApi";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const UpdateUser = () => {
   const [userData, setUserData] = useState("");
   const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [verifPassword, setVerifPassword] = useState("");
   const [profilPicture, setProfilPicture] = useState("");
-  const userId = GetUserIdButton();
   const navigate = useNavigate();
+
+  const { userId } = useParams();
 
   const handleSwitchChange = (checked) => {
     setUserData({ ...userData, darkMode: checked });
   };
 
-  const updateUser = (username, password, profilePicture) => {
-    updateProfile(userId, username, password, profilePicture);
-    navigate("/", { replace: true });
-    window.location.reload();
+  const updateUser = (username, newPassword, profilPicture) => {
+    if(newPassword !== verifPassword){
+      window.alert("Mot de passe différent")
+    }
+    else{
+      updateProfile(userId, username, newPassword, profilPicture);
+      navigate("/", { replace: true });
+      window.location.reload();
+    }
+  
   };
 
   const fetchAccountData = async () => {
     try {
-      const user = await getMe(); // Utilisez la fonction getMe pour récupérer les informations du compte
-      setUserData(user);
+      const user = await getUserById(userId);
+      setUserData(user.user);
     } catch (error) {
       console.error(error);
     }
@@ -39,23 +47,32 @@ const UpdateUser = () => {
 
   useEffect(() => {
     fetchAccountData();
-  }, []);
-
+  }, [userId]);
   const desactivateAccount = () => {
-    deactivateAccount(userId);
-    navigate("/", { replace: true });
-    window.location.reload();
-  };
-
-  const deleteUserAccount = async (userId) => {
-    try {
-      await deleteAccount(userId);
+    const confirmDesactivate = window.confirm("Êtes-vous sûr de vouloir désactiver votre compte ?");
+  
+    if (confirmDesactivate) {
+      deactivateAccount(userId);
       navigate("/", { replace: true });
       window.location.reload();
-    } catch (error) {
-      console.error(error);
     }
   };
+  
+  const deleteUserAccount = async (userId) => {
+    const confirmDelete = window.confirm("Êtes-vous sûr de vouloir supprimer votre compte ?");
+  
+    if (confirmDelete) {
+      try {
+        await deleteAccount(userId);
+        navigate("/", { replace: true });
+        window.location.reload();
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+  
+
   return (
     <div className="font-mono account-container min-h-screen bg-gray-200 p-8 mt-20">
       <div className="max-w-3xl mx-auto p-8 bg-white rounded-lg shadow-md">
@@ -94,14 +111,25 @@ const UpdateUser = () => {
           </p>
         </label>
         <label className="block mb-6">
-          <span className="text-gray-700">Mot de passe</span>
+          <span className="text-gray-700">Nouveau mot de passe</span>
           <input
             type="password"
-            name="password"
-            placeholder="Entrez votre mot de passe"
+            name="newPassword"
+            placeholder="Entrez votre nouveau mot de passe"
             className="mt-1 block w-full h-12 text-lg rounded-md bg-gray-100 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-            value={userData.password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+          />
+        </label>
+        <label className="block mb-6">
+          <span className="text-gray-700">Vérification du mot de passe</span>
+          <input
+            type="password"
+            name="verifPassword"
+            placeholder="Vérifiez votre nouveau mot de passe"
+            className="mt-1 block w-full h-12 text-lg rounded-md bg-gray-100 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            value={verifPassword}
+            onChange={(e) => setVerifPassword(e.target.value)}
           />
         </label>
         <label className="block mb-6 flex items-center">
@@ -119,7 +147,7 @@ const UpdateUser = () => {
         <div className="flex space-x-4">
           <button
             type="button"
-            onClick={() => updateUser(username, password, profilPicture)}
+            onClick={() => updateUser(username, newPassword, profilPicture)}
             className="button bg-indigo-500 text-white w-full h-12 rounded-md"
           >
             Mettre à jour le profil

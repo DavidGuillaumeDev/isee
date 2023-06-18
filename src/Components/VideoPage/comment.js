@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import DefaultPicture from "../../Images/DefaultUser.png";
 import { getVideoById } from "../../Api/videoApi";
 import { Link } from "react-router-dom";
-import { createCommentReply } from "../../Api/commentsApi";
+import { createCommentReply, deleteComment } from "../../Api/commentsApi";
+import { checkAdminStatus } from "../../Api/adminApi";
 
 const Comment = ({
   userId,
@@ -13,6 +14,8 @@ const Comment = ({
   videoData,
   commentId,
   childComments,
+  handleReloadComments,
+
 }) => {
   const [pictureSrc, setPictureSrc] = useState(null);
   const [videoInfo, setVideoInfo] = useState(null);
@@ -20,7 +23,7 @@ const Comment = ({
   const [showReplyInput, setShowReplyInput] = useState(false);
   const [comments, setComments] = useState([]);
   const [replyComment, setReplyComment] = useState("");
-
+  const isAdmin= checkAdminStatus()
 
   useEffect(() => {
     const loadPictureImage = async () => {
@@ -40,9 +43,6 @@ const Comment = ({
 
     loadPictureImage();
   }, [userImage]);
-  
- 
-  
 
   useEffect(() => {
     const fetchVideoInfo = async () => {
@@ -74,6 +74,7 @@ const Comment = ({
         setReplyComment("");
         setComments([...comments, reply]);
         setShowReplyInput(false);
+        handleReloadComments()
       } catch (error) {
         console.error("Failed to create reply:", error);
       }
@@ -84,10 +85,31 @@ const Comment = ({
     setReplyComment(e.target.value);
   };
 
+  const handleDeleteComment = async (commentId) => {
+    const confirmDelete = window.confirm("Êtes-vous sûr de vouloir supprimer ce commentaire ?");
+  
+    if (confirmDelete) {
+      try {
+        await deleteComment(commentId);
+        setComments((prevComments) =>
+          prevComments.filter((comment) => comment.commentId !== commentId)
+        );
+  
+        handleReloadComments();
+      } catch (error) {
+        console.error("Failed to delete comment:", error);
+      }
+    }
+  };
+  
+  
+  
+
   const formatDate = (date) => {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return new Date(date).toLocaleDateString(undefined, options);
   };
+
 
   return (
     <div className="flex items-start mb-4">
@@ -126,6 +148,14 @@ const Comment = ({
           >
             Répondre
           </button>
+          {isAdmin && (
+            <button
+              className="text-red-500 hover:text-red-700 ml-2"
+              onClick={() => handleDeleteComment(commentId)}
+              >
+              Supprimer
+            </button>
+          )}
         </div>
         {showReplyInput && (
           <input

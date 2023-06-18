@@ -16,36 +16,46 @@ const AuthModal = ({ isOpen, onRequestClose }) => {
   const [isRegistering, setIsRegistering] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [showError, setShowError] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
-
   const handleLogin = async () => {
-    login(email, password);
-    navigate("/", { replace: true });
-    setTimeout(() => {
-      window.location.reload();
-    }, 1000); // Délai de 1 seconde
+    try {
+      await login(email, password);
+      navigate("/", { replace: true });
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000); // Délai de 1 seconde
+    } catch (error) {
+      alert(
+        "Une erreur s'est produite lors de la connexion : " + error.message
+      );
+      console.error(error);
+    }
   };
 
   const handleRegister = async (username, email, password, profilPicture) => {
-    registerUser(username, email, password, profilPicture);
-    setIsRegistering(false);
-
-    console.log(username, email, password, "INSCRIS");
+    try {
+      await registerUser(username, email, password, profilPicture);
+      setIsRegistering(false);
+    } catch (error) {
+      alert(error.message);
+    }
   };
 
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
+  };
   const handleSubmit = () => {
     if (isRegistering) {
-      if (password !== confirmPassword) {
-        setPasswordError(true);
-        setErrorMessage("Les mots de passe ne correspondent pas.");
-        setShowError(true);
-        setTimeout(() => {
-          setShowError(false);
-        }, 3000);
+      if (!password || !confirmPassword || !username || !email) {
+        // Vérifier si les champs de mot de passe sont vides
+        alert("Veuillez remplir tous les champs.");
+      } else if (password !== confirmPassword) {
+        // Afficher une alerte lorsque les mots de passe ne correspondent pas
+        alert("Les mots de passe ne correspondent pas.");
       } else {
-        setPasswordError(false);
         handleRegister(username, email, password, profilPicture);
       }
     } else {
@@ -120,12 +130,16 @@ const AuthModal = ({ isOpen, onRequestClose }) => {
           <input
             className="border-b-2 border-gray-300 focus:outline-none focus:border-indigo-500 w-full text-lg py-2 mb-2 font-mono"
             id="password"
-            type="password"
+            type={showPassword ? "text" : "password"}
             placeholder="Mot de passe"
             value={password}
             onKeyDown={handleKeyPress}
+
             onChange={(e) => setPassword(e.target.value)}
           />
+          <button onClick={handleTogglePassword}>
+            {showPassword ? "Masquer" : "Afficher"} le mot de passe
+          </button>
         </div>
         {isRegistering && (
           <div className="mb-6">
@@ -134,16 +148,14 @@ const AuthModal = ({ isOpen, onRequestClose }) => {
                 passwordError ? "border-red-500" : ""
               }`}
               id="confirmPassword"
-              type="password"
+              type={showPassword ? "text" : "password"}
               placeholder="Confirmez le mot de passe"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
-            {passwordError && (
-              <p className="text-red-500">
-                Les mots de passe ne correspondent pas.
-              </p>
-            )}
+            <button onClick={handleTogglePassword}>
+              {showPassword ? "Masquer" : "Afficher"} le mot de passe
+            </button>
           </div>
         )}
         <div className="flex items-center justify-between font-mono">

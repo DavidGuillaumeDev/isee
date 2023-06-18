@@ -1,3 +1,6 @@
+import DOMPurify from 'dompurify';
+
+
 const urlApi = "http://localhost:3000/";
 
 export const getDashboard = async () => {

@@ -1,3 +1,5 @@
+import DOMPurify from "dompurify";
+
 const urlApi = "http://localhost:3000/";
 
 export const fetchUserVideos = async (userId) => {
@@ -43,8 +45,12 @@ export const createVideo = async (
 ) => {
   const formData = new FormData();
   formData.append("userId", userId);
-  formData.append("title", title);
-  formData.append("description", description);
+
+  // Nettoyer les valeurs des champs title et description
+  const sanitizedTitle = DOMPurify.sanitize(title);
+  const sanitizedDescription = DOMPurify.sanitize(description);
+  formData.append("title", sanitizedTitle);
+  formData.append("description", sanitizedDescription);
   formData.append("fileUrl", file);
   formData.append("thumbnail", thumbnail);
   formData.append("status", status);
@@ -56,22 +62,32 @@ export const createVideo = async (
     });
 
     if (!response.ok) {
-      throw new Error("Failed to create video");
+      // Récupérer le message d'erreur retourné par l'API
+      const errorData = await response.json();
+      const statusCode = response.status;
+      console.log(statusCode, errorData.message);
+      throw new Error(
+        `Failed to create video. Status: ${statusCode}. Error: ${errorData.message}`
+      );
     }
 
     const data = await response.json();
     return data.video;
   } catch (error) {
-    console.error(error);
-    throw new Error("Failed to create video");
+    console.error("Failed to create video:", error);
+    throw error;
   }
 };
 
 export const updateVideo = (videoId, videoData) => {
   const formData = new FormData();
   formData.append("videoId", videoData.videoId);
-  formData.append("title", videoData.title);
-  formData.append("description", videoData.description);
+
+  // Nettoyer les valeurs des champs title et description
+  const sanitizedTitle = DOMPurify.sanitize(videoData.title);
+  const sanitizedDescription = DOMPurify.sanitize(videoData.description);
+  formData.append("title", sanitizedTitle);
+  formData.append("description", sanitizedDescription);
   formData.append("fileUrl", videoData.file);
   formData.append("thumbnail", videoData.thumbnailUrl);
   formData.append("status", videoData.status);
@@ -153,12 +169,17 @@ export const getVideoById = (videoId) => {
 
 export const fetchSearchVideos = async (search) => {
   try {
-    const response = await fetch(urlApi + `utils/search/?query=${search}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const sanitizedSearch = DOMPurify.sanitize(search);
+
+    const response = await fetch(
+      urlApi + `utils/search/?query=${sanitizedSearch}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     const data = await response.json();
     return data;
