@@ -268,6 +268,59 @@ code {
 }
 
 
+.trending-page-container {
+  margin-left: 260px; 
+}
+
+.text-overflow-ellipsis {
+  text-overflow: ellipsis;
+}
+
+.text-description {
+  display: -webkit-box;
+  -webkit-line-clamp: 3; 
+  -webkit-box-orient: vertical;
+}
+
+
+.table-fixed {
+  width: 100%;
+}
+
+.col-id {
+  width: 10%;
+}
+
+.col-title {
+  width: 40%;
+}
+
+.col-status {
+  width: 10%;
+}
+
+.col-actions {
+  width: 40%;
+}
+
+.bg-green-500 {
+  background-color: rgb(81, 244, 81);
+  color: white;
+}
+
+.bg-red-500 {
+  background-color: rgb(217, 38, 38);
+  color: white;
+}
+
+.bg-orange-500 {
+  background-color: rgb(233, 170, 54);
+  color: white;
+}
+
+
+
+
 
 
 
@@ -376,4 +429,23 @@ code {
 .button:hover {
   transform: translate(0,-6px);
   box-shadow: 10px -10px 25px 0px rgba(143, 64, 248, .25), -10px 10px 25px 0px rgba(39, 200, 255, .25);
+}
+
+.trending-page-container {
+  margin-left: 260px; 
+}
+
+.text-overflow-ellipsis {
+  text-overflow: ellipsis;
+}
+
+.text-description {
+  display: -webkit-box;
+  -webkit-line-clamp: 3; 
+  -webkit-box-orient: vertical;
+}
+
+.message-list {
+  max-height: calc(100% - 40px); /* Ajustez cette valeur en fonction de vos besoins */
+  overflow-y: auto;
 }

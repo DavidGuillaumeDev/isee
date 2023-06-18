@@ -1,21 +1,49 @@
-import React, { useState } from 'react';
-import { FiUser } from 'react-icons/fi';
-import Comment from './comment';
+import React, { useState, useEffect } from "react";
+import { FiUser } from "react-icons/fi";
+import Comment from "./comment";
+import { createComment, getCommentsByVideoId } from "../../Api/commentsApi";
 
-
-
-const Comments = ({ comments }) => {
-  const [newComment, setNewComment] = useState('');
-  
+const Comments = ({ videoId }) => {
+  const [parentsComments, setParentsComments] = useState([]);
+  const [childComments, setChildComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
 
   const handleCommentChange = (e) => {
     setNewComment(e.target.value);
   };
-/*
-  const handleAddComment = () => {
-    // Add nv commentaire
+
+  const handleCreateComment = async (e) => {
+    if (e.key === "Enter") {
+      try {
+        await createComment(videoId, newComment);
+        setNewComment("");
+
+        setTimeout(() => {
+          fetchComments();
+        }, 5000);
+      } catch (error) {
+        console.error("Failed to create comment:", error);
+      }
+    }
   };
-*/
+  const fetchComments = async () => {
+    try {
+      const commentsData = await getCommentsByVideoId(videoId);
+      const parentComments = commentsData.filter(
+        (comment) => !comment.parentId
+      );
+      const childComments = commentsData.filter((comment) => comment.parentId);
+
+      setChildComments(childComments);
+      setParentsComments(parentComments);
+    } catch (error) {
+      console.error("Failed to fetch comments:", error);
+    }
+  };
+  useEffect(() => {
+    fetchComments();
+  }, [videoId]);
+
   return (
     <div className="comments">
       <div className="flex items-center mb-4">
@@ -26,16 +54,20 @@ const Comments = ({ comments }) => {
           placeholder="Ajouter un commentaire"
           value={newComment}
           onChange={handleCommentChange}
+          onKeyDown={handleCreateComment}
         />
       </div>
       <div className="comment-list">
-        {comments.map((comment) => (
+        {parentsComments.map((comment) => (
           <Comment
-            key={comment.id}
-            userImage={comment.userImage}
-            userName={comment.userName}
-            date={comment.date}
-            comment={comment.comment}
+            key={comment._id}
+            userImage={comment.user.profilePicture}
+            userName={comment.user.name}
+            date={comment.createdAt}
+            comment={comment.content}
+            userId={comment.user._id}
+            commentId={comment._id}
+            childComments={childComments}
           />
         ))}
       </div>
