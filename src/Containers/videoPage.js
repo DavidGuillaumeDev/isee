@@ -123,7 +123,7 @@ const VideoPage = () => {
                 views={video.views}
                 date={video.createdAt}
                 userImage={video.user.profilePicture}
-                userId={videoData.user._id}
+                userId={video.user._id}
               />
             ))}
           </div>

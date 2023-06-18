@@ -23,9 +23,10 @@ const Comment = ({
   const [showReplyInput, setShowReplyInput] = useState(false);
   const [comments, setComments] = useState([]);
   const [replyComment, setReplyComment] = useState("");
-  const isAdmin= checkAdminStatus()
+  const [isAdmin, setIsAdmin] =useState()
 
   useEffect(() => {
+    
     const loadPictureImage = async () => {
       try {
         const response = await fetch(
@@ -56,7 +57,10 @@ const Comment = ({
 
     if (videoData) {
       fetchVideoInfo();
+
     }
+    fetchData();
+
   }, [videoData]);
 
   const handleToggleReplies = () => {
@@ -80,6 +84,16 @@ const Comment = ({
       }
     }
   };
+  async function fetchData() {
+    try {
+      const adminCheck = await checkAdminStatus();
+      setIsAdmin(adminCheck)
+        } catch (error) {
+      console.error(error);
+    }
+  }
+  
+  
 
   const handleReplyChange = (e) => {
     setReplyComment(e.target.value);
@@ -110,6 +124,7 @@ const Comment = ({
     return new Date(date).toLocaleDateString(undefined, options);
   };
 
+  console.log()
 
   return (
     <div className="flex items-start mb-4">
