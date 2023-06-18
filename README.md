@@ -30,7 +30,7 @@ iSee est une plateforme de partage de vidéos en ligne permettant aux utilisateu
 `npm start`
 
 
-Le projet sera accessible à l'adresse `http://localhost:3000`.
+Le projet sera accessible à l'adresse `http://localhost:3001`.
 
 ## Technologies utilisées
 
