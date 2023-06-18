@@ -117,18 +117,6 @@ const Account = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
-        <label className="block mb-6 items-center">
-          <span className="text-gray-700 mr-4">Mode sombre</span>
-          <Switch
-            onChange={handleSwitchChange}
-            checked={userData.darkMode}
-            uncheckedIcon={false}
-            checkedIcon={false}
-            height={20}
-            width={48}
-            handleDiameter={24}
-          />
-        </label>
         <div className="flex space-x-4">
           <button
             type="button"
