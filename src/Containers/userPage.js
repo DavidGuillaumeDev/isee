@@ -8,7 +8,7 @@ import { getUserById } from "../Api/usersApi";
 import DefaultPicture from "../Images/DefaultUser.png";
 
 const UserPage = () => {
-  const [selectedComponent, setSelectedComponent] = useState("home");
+  const [selectedComponent, setSelectedComponent] = useState("videos");
   const [userData, setUserData] = useState(null);
   const [videoData, setVideoData] = useState(null);
   const [pictureSrc, setPictureSrc] = useState(null);
@@ -59,8 +59,6 @@ const UserPage = () => {
 
   const renderSelectedComponent = () => {
     switch (selectedComponent) {
-      case "home":
-        return <HomeUser />;
       case "videos":
         return <VideoUser videoData={videoData} userData={userData} />;
       case "comments":
@@ -95,11 +93,7 @@ const UserPage = () => {
           <p>{userData.name}</p>
         </div>
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <ButtonDashboard
-          text="A propos"
-          onClick={() => setSelectedComponent("home")}
-        />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
         <ButtonDashboard
           text="Voir les vidéos"
           onClick={() => setSelectedComponent("videos")}

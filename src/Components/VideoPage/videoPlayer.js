@@ -74,9 +74,6 @@ const VideoPlayer = ({
     }
   };
 
-  const handleDownload = () => {
-    window.open(src, "_blank");
-  };
 
   return (
     <div className="video-player-container">
@@ -114,9 +111,6 @@ const VideoPlayer = ({
           <div className="right-controls flex items-center">
             <button onClick={handleFullscreen} className="text-white p-2">
               <FiMaximize2 />
-            </button>
-            <button onClick={handleDownload} className="text-white p-2">
-              <FiDownload />
             </button>
           </div>
         </div>
